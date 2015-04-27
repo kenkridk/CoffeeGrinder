@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CoffeeGrinder</string>
+    <string name="action_settings">Settings</string>
+    <string name="buttonViewCoffeeMachinesText">Coffee machines</string>
+    <string name="buttonViewSettingsText">Settings</string>
+    <string name="title_activity_view_coffee_machines">ViewCoffeeMachinesActivity</string>
+    <string name="buttonDelete">Delete</string>
+    <string name="buttonMute">Mute</string>
+    <string name="textViewSettingsText">Settings</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+</resources>
