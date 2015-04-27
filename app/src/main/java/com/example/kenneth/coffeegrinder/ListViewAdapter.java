@@ -45,6 +45,9 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         final RelativeLayout leftContainer = (RelativeLayout) convertView.findViewById(R.id.leftContainer);
         final RelativeLayout rightContainer = (RelativeLayout) convertView.findViewById(R.id.rightContainer);
 
+        rightContainer.setVisibility(View.VISIBLE);
+        Log.d("right_container",rightContainer.getX()+":" + rightContainer.getY());
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
