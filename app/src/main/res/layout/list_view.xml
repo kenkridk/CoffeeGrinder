@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/mainContainer">
 
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:background="#ff0000"
         android:id="@+id/rightContainer"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello"
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:text="Mute"
+            android:background="@color/material_blue_grey_800"
+            android:textColor="#ffffff"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:id="@+id/buttomMute"
+            android:textSize="10dp"
+            >
+
+        </Button>
+        <Button
+            android:textSize="10dp"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:text="Remove"
+            android:textColor="#ffffff"
+            android:background="#604556"
+            android:layout_alignParentRight="true"
+            android:id="@+id/buttonRemove">
+
+        </Button>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

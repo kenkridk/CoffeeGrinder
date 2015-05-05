@@ -6,11 +6,12 @@ package com.example.kenneth.coffeegrinder;
 public class ListViewClass{
     private String name;
     private String description;
-    private String intentAction;
+    private int id;
 
-    public ListViewClass(String name, String description){
+    public ListViewClass(String name, String description, int id){
         this.name = name;
         this.description = description;
+        this.id = id;
     }
 
     public String getName(){
@@ -29,11 +30,11 @@ public class ListViewClass{
         this.description = description;
     }
 
-    public String getIntentAction(){
-        return intentAction;
+    public int getId(){
+        return id;
     }
 
-    public void setIntentAction(String intentAction){
-        this.intentAction = intentAction;
+    public void setId(int id){
+        this.id = id;
     }
 }

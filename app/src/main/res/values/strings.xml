@@ -8,4 +8,7 @@
     <string name="buttonMute">Mute</string>
     <string name="textViewSettingsText">Settings</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_nfc">NFCActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
