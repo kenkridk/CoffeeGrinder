@@ -175,7 +175,7 @@ public class NFCActivity extends ActionBarActivity {
                 Log.d("Read content", result);
 //                textViewNfc.setText("NFC: " + result);
                 final String arr[] = result.split("/");
-                //TODO Implement device registration ID retrieval for insertion in URL
+                //TODO Implement device registration ID retrieval for insertion in request
 //                String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
                 String url = "http://" + arr[0] + "/subscribe";
                 textViewNfc.setText(url);
@@ -192,8 +192,8 @@ public class NFCActivity extends ActionBarActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        //Called if something goes wrong in making the request
                         textViewNfc.setText("Something went wrong!\n" + error.toString());
-
                     }
                 }) {
                     /**

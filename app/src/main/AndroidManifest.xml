@@ -3,7 +3,7 @@
     package="com.example.kenneth.coffeegrinder" >
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -50,6 +50,22 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".GcmIntentService"
+            android:exported="false" >
+        </service>
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <service
+            android:name=".GCMService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

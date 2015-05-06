@@ -1,15 +1,32 @@
 package com.example.kenneth.coffeegrinder;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends ActionBarActivity {
+
+    public static final boolean DEBUG = true;
+
+    //Tag for log
+    private static final String GCM_TAG = "GCM-Test";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    //Thomas
 
     private Intent i;
     private Button viewCoffeeMachines;
@@ -28,6 +45,39 @@ public class MainActivity extends ActionBarActivity {
 
         //start service that notifies about new subscribers
         startService(i);
+
+        //Thomas
+        if (DEBUG) Log.i(GCM_TAG, "OnCreate");
+
+        /**
+         * Register intent filters for the checks for Google Play Services that are performed in
+         * the GCMService.checkPlayServices() method.
+         */
+        IntentFilter filter = new IntentFilter(GCMService.USER_RECOVERABLE_ERROR);
+        filter.addAction(GCMService.DEVICE_NOT_SUPPORTED);
+
+        /**
+         * Broadcast receiver for the intents registered above. The first case displays a
+         * prompt to download Play Services, or enable in the settings. The second case is for
+         * the event that it is not possible to get Play Services running; thus the app will not be
+         * usable on the device as it relies on Play Services for GCM.
+         */
+        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case GCMService.USER_RECOVERABLE_ERROR:
+                        GooglePlayServicesUtil.getErrorDialog(intent.getExtras().getInt("resultCode"), MainActivity.this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                        break;
+                    case GCMService.DEVICE_NOT_SUPPORTED:
+                        Toast.makeText(MainActivity.this, "Device not supported", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                }
+            }
+        }, filter);
+
+        startGCMService(GCMService.INIT);
     }
 
     public void initializeButtons(){
@@ -79,6 +129,44 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        if (DEBUG) Log.i(GCM_TAG, "onDestroy");
         stopService(i);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (DEBUG) Log.i(GCM_TAG, "onResume");
+        startGCMService(GCMService.CHECK_PLAY_SERVICES);
+    }
+
+    /**
+     * Helper method for starting the GCMService
+     * @param action What action should be performed by the service
+     */
+    private void startGCMService(String action) {
+        Intent intent = new Intent(this, GCMService.class);
+        intent.setAction(action);
+        startService(intent);
+    }
+
+    /**
+     * Debugging method for printing the ID that the device gets when registering on GCM.
+     */
+    public void printID(View view) {
+        SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        String id = prefs.getString(GCMService.PROPERTY_REG_ID, "DefValue");
+        /*TextView textView = (TextView) findViewById(R.id.mDisplay);
+        textView.setText("ID is: " + id + "\n");*/
+        Log.i(GCM_TAG, "regId: " + id);
+    }
+
+    /**
+     * Debugging method for re-registering the device on GCM. Should hopefully not be necessary
+     * when the app is finalized and does not change. Probably related to the fact that Google
+     * requires re-registering all devices whenever a new version of the app is released.
+     */
+    public void reRegister(View view) {
+        startGCMService(GCMService.REREGISTER);
     }
 }
