@@ -4,6 +4,15 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="dk.teamawesome.gcm_test.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="dk.teamawesome.gcm_test.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -59,7 +68,13 @@
         <receiver
             android:name=".GcmBroadcastReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.example.kenneth.coffeegrinder" />
+            </intent-filter>
         </receiver>
 
         <service
