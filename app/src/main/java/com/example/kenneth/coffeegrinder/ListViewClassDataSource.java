@@ -44,8 +44,10 @@ public class ListViewClassDataSource {
     public void deleteListViewClass(ListViewClass listViewClass){
         long id = listViewClass.getId();
         System.out.println("ListViewClass deleted with id: " + id);
-        database.delete(DatabaseImpl.TABLE_LISTVIEWCLASS, DatabaseImpl.COLUMN_ID + " = " +id, null);
+        database.delete(DatabaseImpl.TABLE_LISTVIEWCLASS, DatabaseImpl.COLUMN_ID
+                + " = " + id, null);
     }
+
 
     public List<ListViewClass> getAllListViewClasses(){
         List<ListViewClass> listViewClasses = new ArrayList<ListViewClass>();

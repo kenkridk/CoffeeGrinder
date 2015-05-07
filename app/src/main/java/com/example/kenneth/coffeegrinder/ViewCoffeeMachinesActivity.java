@@ -2,6 +2,7 @@ package com.example.kenneth.coffeegrinder;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,38 +19,47 @@ import java.util.List;
 
 public class ViewCoffeeMachinesActivity extends ActionBarActivity {
 
-    private ListViewClassDataSource datasource;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_coffee_machines);
+//
+//        datasource = new ListViewClassDataSource(this);
+//        try {
+//            datasource.open();
+//
+//            list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
+//            adapter = new ListViewAdapter(this, list);
+//
+//            listView = (ListView) findViewById(R.id.listView);
+//            listView.setAdapter(adapter);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+    }
 
-        datasource = new ListViewClassDataSource(this);
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Toast.makeText(this, "ONRESUME WAS CALLED!!" , Toast.LENGTH_SHORT).show();
+
+        ListViewClassDataSource datasource = new ListViewClassDataSource(this);
         try {
             datasource.open();
+
+            ArrayList<ListViewClass> list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
+            Log.d("Length of list", list.size() + "");
+
+            ListViewAdapter adapter = new ListViewAdapter(this, list);
+
+            ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(adapter);
+            listView.invalidate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        ArrayList<ListViewClass> list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
-        ListViewAdapter adapter = new ListViewAdapter(this, list);
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
-        /*
-        ArrayList<ListViewClass> list = new ArrayList<ListViewClass>();
-
-        ListViewAdapter adapter = new ListViewAdapter(this, list);
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
-        for(int i = 0; i <6; i++){
-            ListViewClass lvc = new ListViewClass("TestName" + i, "TestDescription" + i, i);
-            adapter.add(lvc);
-        }
-        */
+        datasource.close();
     }
 }

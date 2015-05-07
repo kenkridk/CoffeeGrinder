@@ -197,7 +197,6 @@ public class NFCActivity extends ActionBarActivity {
 //                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
                         String url = "http://" + arr[0] + "/subscribe";
                         textViewNfc.setText(url);
-                        datasource.createListViewClass(result);
                         //maybe here we should add the coffee machine to the list of coffee machines.
                         RequestQueue queue = Volley.newRequestQueue(NFCActivity.this);
                         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -206,6 +205,7 @@ public class NFCActivity extends ActionBarActivity {
                                 //We do not receive response from the server for this so do nothing.
                                 //Could possibly add a response so we only add coffee machine on a 200 OK?
                                 textViewNfc.setText("Something went right!\n" + response);
+                                datasource.createListViewClass(result);
                             }
                         }, new Response.ErrorListener() {
                             @Override
