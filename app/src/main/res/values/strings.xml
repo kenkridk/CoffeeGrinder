@@ -10,5 +10,11 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_nfc">NFCActivity</string>
 
+    <string name="time_up">Time Is Up\!</string>
+    <string name="notifying_server">Notifying server, please wait...</string>
+    <string name="server_error">Couldn\'t find server :(</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_coffee_inquiry">CoffeeInquiry</string>
 </resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/fragment_collection_object"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    <ProgressBar
+        android:id="@+id/barTimer"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:progress="1000"
+        android:max="1000"
+        android:progressDrawable="@drawable/test_timer"
+        android:rotation="90"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 sec"
+        android:id="@+id/timeView"
+        android:layout_centerInParent="true"
+        android:textSize="20pt"/>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/swipe_background"
+        android:gravity="center"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/swipe_left"
+            android:layout_weight="1"
+            android:paddingRight="70dp"
+            android:paddingLeft="10dp"/>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/swipe_right"
+            android:layout_weight="1"
+            android:paddingLeft="70dp"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swipe"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/linearLayout"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alan Turing is making coffee in Ada 101"
+        android:id="@+id/textView3"
+        android:gravity="center"
+        android:layout_below="@+id/barTimer"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

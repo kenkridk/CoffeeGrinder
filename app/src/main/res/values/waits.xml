@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="time_offset">10000</integer>
+    <integer name="no_wait">1000</integer>
+    <integer name="yes_wait">2000</integer>
+
+</resources>

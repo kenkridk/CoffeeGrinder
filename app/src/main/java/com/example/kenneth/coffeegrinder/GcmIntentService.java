@@ -29,7 +29,8 @@ public class GcmIntentService extends IntentService {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
-        Toast.makeText(getApplicationContext(), "intentService onHandleIntent", Toast.LENGTH_SHORT).show();
+        //The toast gets stuck
+        //Toast.makeText(getApplicationContext(), "intentService onHandleIntent", Toast.LENGTH_SHORT).show();
 
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
@@ -56,6 +57,9 @@ public class GcmIntentService extends IntentService {
                             case "request":
                                 //Request for whether the user wants coffee or not
                                 Log.i(TAG, "Received request GCM message");
+                                Intent inquiryIntent = new Intent(this, CoffeeInquiry.class);
+                                inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(inquiryIntent);
                                 break;
                             case "notification":
                                 /**
