@@ -1,9 +1,13 @@
 package com.example.kenneth.coffeegrinder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -138,6 +142,8 @@ public class NFCActivity extends ActionBarActivity {
 
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
+        private String result = "";
+
         @Override
         protected String doInBackground(Tag... params) {
             Tag tag = params[0];
@@ -171,45 +177,65 @@ public class NFCActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String result){
-            if(result != null){
-                Log.d("Read content", result);
+            if(result == null) return;
+
+            this.result = result;
+            Log.d("Read content", result);
 //                textViewNfc.setText("NFC: " + result);
-                final String arr[] = result.split("/");
-                //TODO Implement device registration ID retrieval for insertion in request
-//                String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
-                String url = "http://" + arr[0] + "/subscribe";
-                textViewNfc.setText(url);
-                datasource.createListViewClass(result);
-                //maybe here we should add the coffee machine to the list of coffee machines.
-                RequestQueue queue = Volley.newRequestQueue(NFCActivity.this);
-                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //We do not receive response from the server for this so do nothing.
-                        //Could possibly add a response so we only add coffee machine on a 200 OK?
-                        textViewNfc.setText("Something went right!\n" + response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Called if something goes wrong in making the request
-                        textViewNfc.setText("Something went wrong!\n" + error.toString());
-                    }
-                }) {
-                    /**
-                     * Override the getParams() method and change it to contain the parameters we
-                     * want to pass to the server.
-                     */
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("android", "DeviceRegistrationID");
-                        params.put("machine", arr[1]);
-                        return params;
-                    }
-                };
-                queue.add(request);
-            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(NFCActivity.this);
+            builder.setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
         }
+
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        final String arr[] = result.split("/");
+                        //TODO Implement device registration ID retrieval for insertion in request
+//                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
+                        String url = "http://" + arr[0] + "/subscribe";
+                        textViewNfc.setText(url);
+                        datasource.createListViewClass(result);
+                        //maybe here we should add the coffee machine to the list of coffee machines.
+                        RequestQueue queue = Volley.newRequestQueue(NFCActivity.this);
+                        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                //We do not receive response from the server for this so do nothing.
+                                //Could possibly add a response so we only add coffee machine on a 200 OK?
+                                textViewNfc.setText("Something went right!\n" + response);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //Called if something goes wrong in making the request
+                                textViewNfc.setText("Something went wrong!\n" + error.toString());
+                            }
+                        }) {
+                            /**
+                             * Override the getParams() method and change it to contain the parameters we
+                             * want to pass to the server.
+                             */
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<>();
+                                SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+                                String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
+                                Log.i("CoffeeApp", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
+                                params.put("android", deviceID);
+                                params.put("machine", arr[1]);
+                                return params;
+                            }
+                        };
+                        queue.add(request);
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+                finish();
+            }
+        };
     }
 }

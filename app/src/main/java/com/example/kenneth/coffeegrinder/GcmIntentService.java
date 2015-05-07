@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class GcmIntentService extends IntentService {
 
     public static final int NOTIFICATION_ID = 1;
@@ -36,23 +39,42 @@ public class GcmIntentService extends IntentService {
             switch (messageType) {
                 case GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR:
 //                    sendNotification("Send error: " + extras.toString());
+                    Log.i(TAG, "GCM: MESSAGE_TYPE_SEND_ERROR");
                     break;
                 case GoogleCloudMessaging.MESSAGE_TYPE_DELETED:
 //                    sendNotification("Deleted messages on server: " + extras.toString());
+                    Log.i(TAG, "GCM: MESSAGE_TYPE_DELETED");
                     break;
                 case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-                    //TODO Actual implementation of work
-                    for (int i = 0; i < 5; i++) {
-                        Log.i(TAG, "Dummy work..." + i + "/5");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Log.i(TAG, "Completed dummy work");
 //                    sendNotification("Received " + extras.toString());
-                    Log.i(TAG, "Received " + extras.toString());
+                    Log.i(TAG, "GCM received " + extras.toString());
+                    try {
+                        JSONObject message = new JSONObject(extras.getString("message"));
+                        Log.i(TAG, "JSON toString" + message.toString());
+                        //TODO Actual implementation of work
+                        switch (message.getString("type")) {
+                            case "request":
+                                //Request for whether the user wants coffee or not
+                                Log.i(TAG, "Received request GCM message");
+                                break;
+                            case "notification":
+                                /**
+                                 * Has a few different uses:
+                                 * -Coffee is done
+                                 * -The user is on the "waiting list"
+                                 * -The user is NOT on the "waiting list"
+                                 */
+                                Log.i(TAG, "Received notification GCM message");
+                                break;
+                            case "subscription":
+                                //Received when we successfully subscribe to a machine
+                                Log.i(TAG, "Received subscription GCM message");
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parse error");
+                        e.printStackTrace();
+                    }
 
             }
         }
