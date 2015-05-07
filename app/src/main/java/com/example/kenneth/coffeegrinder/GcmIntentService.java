@@ -58,6 +58,8 @@ public class GcmIntentService extends IntentService {
                                 //Request for whether the user wants coffee or not
                                 Log.i(TAG, "Received request GCM message");
                                 Intent inquiryIntent = new Intent(this, CoffeeInquiry.class);
+                                inquiryIntent.putExtra("time",message.getString("time"));
+                                inquiryIntent.putExtra("machine",message.getJSONObject("config").getString("id"));
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(inquiryIntent);
                                 break;

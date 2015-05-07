@@ -1,5 +1,7 @@
 package com.example.kenneth.coffeegrinder;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -72,15 +74,11 @@ public class CoffeeInquiry extends FragmentActivity {
                     case 0: //User swiped yes
                         pos = position;
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                        WifiManager manager = (WifiManager) getSystemService(WIFI_SERVICE);
-                        WifiInfo info = manager.getConnectionInfo();
-                        String address = info.getMacAddress();
-                        String url ="http://www.nikander-arts.com:8080/requestAccess?id="+address;
-
-                        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET,url,new JSONObject(),
-                            new Response.Listener<JSONObject>() {
+                        String url ="http://www.nikander-arts.com:8080/respond";
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                            new Response.Listener<String>() {
                                 @Override
-                                public void onResponse(JSONObject response) {
+                                public void onResponse(String response) {
                                     TextView serverResponse = (TextView)findViewById(R.id.server_response);
 
                                     runOnUiThread(new Runnable() {
@@ -90,21 +88,17 @@ public class CoffeeInquiry extends FragmentActivity {
                                         }
                                     });
 
-                                    try{
-                                        //JSONObject myJson = new JSONObject(response);
-                                        serverResponse.setText(response.getString("description"));
-                                        playNotificationSound();
+                                                //JSONObject myJson = new JSONObject(response);
+                                                serverResponse.setText(response);
+                                                playNotificationSound();
 
-                                        new Timer().schedule(new TimerTask() {
-                                            @Override
-                                            public void run() {
-                                                finish();
-                                            }
+                                                new Timer().schedule(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        finish();
+                                                    }
                                         },getResources().getInteger(R.integer.yes_wait));
 
-                                    }catch(JSONException e){
-                                        Log.e("CoffeeApp_json",e.getMessage());
-                                    }
                                 }
                             }, new Response.ErrorListener() {
                             @Override
@@ -126,14 +120,19 @@ public class CoffeeInquiry extends FragmentActivity {
                             }
                         }){
                             @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String>  params = new HashMap<String, String>();
-                                params.put("User-Agent", "Android Phone");
-                                params.put("Accept", "application/json");
-
+                            public Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<>();
+                                SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+                                String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
+                                Log.i("CoffeeApp", "Requesting subscription on " + getIntent().getExtras().getString("machine") + " with device ID " + deviceID);
+                                params.put("android", deviceID);
+                                params.put("machine", getIntent().getExtras().getString("machine"));
+                                params.put("answer", "true");
+                                params.put("time", getIntent().getExtras().getString("time"));
                                 return params;
                             }
                         };
+
                         queue.add(stringRequest);
 
 

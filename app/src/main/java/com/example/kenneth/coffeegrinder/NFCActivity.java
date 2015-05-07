@@ -228,6 +228,8 @@ public class NFCActivity extends ActionBarActivity {
                                 params.put("machine", arr[1]);
                                 return params;
                             }
+
+
                         };
                         queue.add(request);
                         break;
