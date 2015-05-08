@@ -2,14 +2,10 @@ package com.example.kenneth.coffeegrinder;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.media.ToneGenerator;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.StrictMode;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,30 +16,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 public class CoffeeInquiry extends FragmentActivity {
 
@@ -57,16 +40,13 @@ public class CoffeeInquiry extends FragmentActivity {
         setContentView(R.layout.activity_coffee_inquiry);
         playNotificationSound();
 
-
         TabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         tab = (ViewPager)findViewById(R.id.pager);
         tab.setAdapter(TabAdapter);
         tab.setCurrentItem(1);
         tab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -88,17 +68,10 @@ public class CoffeeInquiry extends FragmentActivity {
                                         }
                                     });
 
-                                                //JSONObject myJson = new JSONObject(response);
-                                                serverResponse.setText(response);
-                                                playNotificationSound();
-
-                                                new Timer().schedule(new TimerTask() {
-                                                    @Override
-                                                    public void run() {
-                                                        finish();
-                                                    }
-                                        },getResources().getInteger(R.integer.yes_wait));
-
+                                    //JSONObject myJson = new JSONObject(response);
+                                    serverResponse.setText(response);
+                                    playNotificationSound();
+                                    finishIn(getResources().getInteger(R.integer.yes_wait));
                                 }
                             }, new Response.ErrorListener() {
                             @Override
@@ -111,12 +84,7 @@ public class CoffeeInquiry extends FragmentActivity {
                                         findViewById(R.id.server_progress_bar).setVisibility(View.GONE);
                                     }
                                 });
-                                new Timer().schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        finish();
-                                    }
-                                },getResources().getInteger(R.integer.yes_wait));
+                                finishIn(getResources().getInteger(R.integer.yes_wait));
                             }
                         }){
                             @Override
@@ -134,8 +102,6 @@ public class CoffeeInquiry extends FragmentActivity {
                         };
 
                         queue.add(stringRequest);
-
-
                         break;
                     case 1:
                         tab.setCurrentItem(pos);
@@ -143,34 +109,30 @@ public class CoffeeInquiry extends FragmentActivity {
                     case 2:
                         pos = position;
                         //The user doesn't want coffee, for some reason, so finish the activity.
-
-                        new Timer().schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, getResources().getInteger(R.integer.no_wait));
+                        finishIn(getResources().getInteger(R.integer.no_wait));
                         break;
-
                 }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 
+    private void finishIn(int delayMillis) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },delayMillis);
+    }
 
     public void playNotificationSound(){
-
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
-
     }
-
 
     // Since this is an object collection, use a FragmentStatePagerAdapter,
 // and NOT a FragmentPagerAdapter.

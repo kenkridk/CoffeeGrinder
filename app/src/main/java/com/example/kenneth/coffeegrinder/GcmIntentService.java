@@ -52,7 +52,7 @@ public class GcmIntentService extends IntentService {
                     try {
                         JSONObject message = new JSONObject(extras.getString("message"));
                         Log.i(TAG, "JSON toString" + message.toString());
-                        //TODO Actual implementation of work
+
                         switch (message.getString("type")) {
                             case "request":
                                 //Request for whether the user wants coffee or not
@@ -61,15 +61,19 @@ public class GcmIntentService extends IntentService {
                                 inquiryIntent.putExtra("time",message.getString("time"));
                                 inquiryIntent.putExtra("machine",message.getJSONObject("config").getString("id"));
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                                 startActivity(inquiryIntent);
                                 break;
                             case "notification":
                                 /**
-                                 * Has a few different uses:
+                                 * -Coffee is being brewed
                                  * -Coffee is done
                                  * -The user is on the "waiting list"
                                  * -The user is NOT on the "waiting list"
                                  */
+                                JSONObject jsonObject = message.getJSONObject("description");
+                                sendNotification(jsonObject.getString("text"));
+
                                 Log.i(TAG, "Received notification GCM message");
                                 break;
                             case "subscription":
@@ -81,28 +85,25 @@ public class GcmIntentService extends IntentService {
                         Log.e(TAG, "JSON parse error");
                         e.printStackTrace();
                     }
-
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
     // Put the message into a notification and post it.
-    // This is just one simple example of what you might choose to do with
-    // a GCM message.
-    /*private void sendNotification(String msg) {
+    private void sendNotification(String msg) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .setContentTitle("GCM Notification")
+                .setSmallIcon(R.drawable.ic_stat_coffee)
+                .setContentTitle("Coffee coffee coffee")
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(msg))
                 .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-    }*/
+    }
 }
