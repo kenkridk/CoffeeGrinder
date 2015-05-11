@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -85,6 +84,7 @@ public class GcmIntentService extends IntentService {
                         Log.e(TAG, "JSON parse error");
                         e.printStackTrace();
                     }
+                    break;
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -94,13 +94,14 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(String msg) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        //TODO change starting activity on press notification?
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_coffee)
-                .setContentTitle("Coffee coffee coffee")
+                .setContentTitle(getResources().getString(R.string.app_name))
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(msg))
+                .bigText(msg))
                 .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
