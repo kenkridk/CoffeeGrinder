@@ -33,12 +33,15 @@ public class CoffeeInquiry extends FragmentActivity {
     ViewPager tab;
     TabPagerAdapter TabAdapter;
     private int pos = 1;
+    private int timeout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_inquiry);
         playNotificationSound();
+
+        timeout = Integer.parseInt(getIntent().getExtras().getString("timeout"));
 
         TabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         tab = (ViewPager)findViewById(R.id.pager);
@@ -126,6 +129,10 @@ public class CoffeeInquiry extends FragmentActivity {
                 finish();
             }
         },delayMillis);
+    }
+
+    public int getTimeout(){
+        return timeout;
     }
 
     public void playNotificationSound(){

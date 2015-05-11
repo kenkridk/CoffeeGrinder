@@ -59,6 +59,7 @@ public class GcmIntentService extends IntentService {
                                 Intent inquiryIntent = new Intent(this, CoffeeInquiry.class);
                                 inquiryIntent.putExtra("time",message.getString("time"));
                                 inquiryIntent.putExtra("machine",message.getJSONObject("config").getString("id"));
+                                inquiryIntent.putExtra("timeout",message.getJSONObject("config").getString("timeout"));
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                                 startActivity(inquiryIntent);

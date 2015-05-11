@@ -23,19 +23,6 @@ public class ViewCoffeeMachinesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_coffee_machines);
-//
-//        datasource = new ListViewClassDataSource(this);
-//        try {
-//            datasource.open();
-//
-//            list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
-//            adapter = new ListViewAdapter(this, list);
-//
-//            listView = (ListView) findViewById(R.id.listView);
-//            listView.setAdapter(adapter);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override

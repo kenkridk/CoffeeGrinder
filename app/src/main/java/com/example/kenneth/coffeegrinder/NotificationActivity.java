@@ -3,6 +3,7 @@ package com.example.kenneth.coffeegrinder;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class NotificationActivity extends Fragment {
     private TextView tv;
     private long deadline = 0;
     private CoffeeInquiry activity;
+    private int timeOffset;
+    private int progressOffset;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +36,9 @@ public class NotificationActivity extends Fragment {
         View view = inflater.inflate(R.layout.notification_fragment, container, false);
 
         activity = (CoffeeInquiry)getActivity();
+        timeOffset = activity.getTimeout();
+        progressOffset = timeOffset/1000;
+        Log.d("TimeOffset", timeOffset + "");
         startTimer(view);
         return view;
     }
@@ -53,12 +59,12 @@ public class NotificationActivity extends Fragment {
         }
 
 
-        deadline = Calendar.getInstance().getTimeInMillis() + getResources().getInteger(R.integer.time_offset);
+        deadline = Calendar.getInstance().getTimeInMillis() + timeOffset;
 
         TimerTask t = new TimerTask() {
             @Override
             public void run() {
-                progress =(int)(getResources().getInteger(R.integer.time_offset)-(deadline- Calendar.getInstance().getTimeInMillis()))/10;
+                progress =(int)(timeOffset-(deadline- Calendar.getInstance().getTimeInMillis()))/progressOffset;
                 pb.setProgress(progress);
                 if(activity.getPosition()!=1){
                     timer.cancel();
@@ -69,7 +75,7 @@ public class NotificationActivity extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv.setText((10 - (progress / 100)) + " sec");
+                        tv.setText((int)((progressOffset - (progress / (((float)10/(float)progressOffset)*100)))) + " sec");
                         pb.setAlpha(timerAlpha);
                     }
                 });
