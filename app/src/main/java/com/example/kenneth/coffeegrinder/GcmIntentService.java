@@ -1,11 +1,14 @@
 package com.example.kenneth.coffeegrinder;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -102,12 +105,7 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(String msg) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_coffee)
-                .setContentTitle(getResources().getString(R.string.app_name))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(msg))
-                .setContentText(msg);
+        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg);
 
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
@@ -115,12 +113,9 @@ public class GcmIntentService extends IntentService {
     private void sendNotificationWithMap(String msg, String latitude, String longitude) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_coffee)
-                .setContentTitle(getResources().getString(R.string.app_name))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(msg))
-                .setContentText(msg);
+        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg);
+
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
 
         Intent intent = new Intent(this, CoffeeReady.class);
         intent.putExtra("latitude", latitude);
@@ -129,5 +124,16 @@ public class GcmIntentService extends IntentService {
         mBuilder.setContentIntent(contentIntent);
 
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private NotificationCompat.Builder makeNotificationBuilder(String msg) {
+        return new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_stat_coffee)
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(msg))
+                .setContentText(msg)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
     }
 }

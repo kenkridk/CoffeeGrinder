@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -39,6 +40,8 @@ public class CoffeeInquiry extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_inquiry);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         playNotificationSound();
 
         timeout = Integer.parseInt(getIntent().getExtras().getString("timeout"));
@@ -187,5 +190,4 @@ public class CoffeeInquiry extends FragmentActivity {
     public int getPosition(){
         return pos;
     }
-
 }
