@@ -37,6 +37,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     private TranslateAnimation animation;
     private ArrayList<Boolean> isCellsCollapsedList;
     private ListViewClassDataSource datasource;
+    private int widthToAnimate;
 
     public ListViewAdapter(Context context, ArrayList<ListViewClass> list){
         super(context, 0, list);
@@ -51,7 +52,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     }
 
     public void animateOpenCell(View v, int position){
-        animation = new TranslateAnimation(0, -200, 0, 0);
+        animation = new TranslateAnimation(0, -widthToAnimate, 0, 0);
         animation.setDuration(200);
         animation.setFillAfter(true);
         v.startAnimation(animation);
@@ -59,7 +60,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     }
 
     public void animateCloseCell(View v, int position){
-        animation = new TranslateAnimation(-200, 0, 0, 0);
+        animation = new TranslateAnimation(-widthToAnimate, 0, 0, 0);
         animation.setDuration(200);
         animation.setFillAfter(true);
         v.startAnimation(animation);
@@ -67,7 +68,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     }
 
     public void animationDestroy(View v, final ListViewClass lvc){
-        animation = new TranslateAnimation(-200, -v.getWidth(), 0 ,0);
+        animation = new TranslateAnimation(-widthToAnimate, -v.getWidth(), 0 ,0);
         animation.setDuration(200);
         v.startAnimation(animation);
 
@@ -107,6 +108,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         final Button remove = (Button) convertView.findViewById(R.id.buttonRemove);
         final Button mute = (Button) convertView.findViewById(R.id.buttomMute);
+
+        widthToAnimate = remove.getWidth() + mute.getWidth();
 
         remove.setEnabled(false);
         mute.setEnabled(false);
