@@ -109,7 +109,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         final Button remove = (Button) convertView.findViewById(R.id.buttonRemove);
         final Button mute = (Button) convertView.findViewById(R.id.buttomMute);
 
-        widthToAnimate = remove.getWidth() + mute.getWidth();
+        Log.d("removebutton width", "" + remove.getWidth());
+        Log.d("WidthToAnimate", widthToAnimate + "" + remove.getWidth());
 
         remove.setEnabled(false);
         mute.setEnabled(false);
@@ -120,6 +121,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             @Override
             public void onClick(View v) {
                 if(isCellsCollapsedList.get(position)) {
+                    Log.d("removebutton width", "" + remove.getWidth());
+                    widthToAnimate = remove.getWidth() + mute.getWidth();
                     animateOpenCell(leftContainer, position);
                     remove.setEnabled(true);
                     mute.setEnabled(true);
