@@ -1,16 +1,26 @@
-<RelativeLayout
+<LinearLayout
+    android:baselineAligned="false"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 
     <fragment
+        android:layout_weight="3"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/fragment"
+        android:id="@+id/coffeeReadyTextFragment"
         android:name="com.example.kenneth.coffeegrinder.CoffeeReadyFragment"
         tools:layout="@layout/fragment_coffee_ready"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</RelativeLayout>
+
+    <fragment
+        android:layout_weight="1"
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/coffeeReadyMapFragment" />
+</LinearLayout>
 
 

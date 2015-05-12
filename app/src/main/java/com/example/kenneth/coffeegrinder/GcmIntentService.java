@@ -72,7 +72,14 @@ public class GcmIntentService extends IntentService {
                                  * -The user is NOT on the "waiting list"
                                  */
                                 JSONObject jsonObject = message.getJSONObject("description");
-                                sendNotification(jsonObject.getString("text"));
+
+                                if (jsonObject.getJSONArray("extras").toString().contains("show-map")) {
+                                    String lat = message.getJSONObject("config").getString("lat");
+                                    String lon = message.getJSONObject("config").getString("lon");
+
+                                    sendNotificationWithMap(jsonObject.getString("text"), lat, lon);
+
+                                } else sendNotification(jsonObject.getString("text"));
 
                                 Log.i(TAG, "Received notification GCM message");
                                 break;
@@ -95,8 +102,18 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(String msg) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //TODO change starting activity on press notification?
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, MainActivity.class), 0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_stat_coffee)
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(msg))
+                .setContentText(msg);
+
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void sendNotificationWithMap(String msg, String latitude, String longitude) {
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_coffee)
@@ -105,7 +122,12 @@ public class GcmIntentService extends IntentService {
                 .bigText(msg))
                 .setContentText(msg);
 
+        Intent intent = new Intent(this, CoffeeReady.class);
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("longitude", longitude);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setContentIntent(contentIntent);
+
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 }

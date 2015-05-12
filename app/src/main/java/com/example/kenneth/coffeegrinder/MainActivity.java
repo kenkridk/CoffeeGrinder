@@ -98,7 +98,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //start new activity showing settings
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+//                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent i = new Intent(MainActivity.this, CoffeeReady.class);
+                i.putExtra("latitude", "56.153498");
+                i.putExtra("longitude", "10.208037");
                 startActivity(i);
             }
         });
