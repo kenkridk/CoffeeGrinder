@@ -4,18 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Kenneth on 04-05-2015.
- */
 public class ListViewClassDataSource {
     private SQLiteDatabase database;
     private DatabaseImpl dbHelper;
-    private String[] allColumns = {DatabaseImpl.COLUMN_ID, DatabaseImpl.COLUMN_LISTVIEWCLASS};
+    private String[] allColumns = {DatabaseImpl.COLUMN_ID, DatabaseImpl.COLUMN_LISTVIEWCLASS, DatabaseImpl.COLUMN_MACHINEID};
 
     public ListViewClassDataSource(Context context){
         dbHelper = new DatabaseImpl(context);
@@ -29,9 +27,10 @@ public class ListViewClassDataSource {
         dbHelper.close();
     }
 
-    public ListViewClass createListViewClass(String listViewClass){
+    public ListViewClass createListViewClass(String listViewClass, String machineId){
         ContentValues values = new ContentValues();
         values.put(DatabaseImpl.COLUMN_LISTVIEWCLASS, listViewClass);
+        values.put(DatabaseImpl.COLUMN_MACHINEID, machineId);
         long insertId = database.insert(DatabaseImpl.TABLE_LISTVIEWCLASS, null, values);
         Cursor cursor = database.query(DatabaseImpl.TABLE_LISTVIEWCLASS, allColumns, DatabaseImpl.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
@@ -69,6 +68,7 @@ public class ListViewClassDataSource {
         listViewClass.setId((int)(cursor.getLong(0)));
         listViewClass.setName(cursor.getString(1));
         listViewClass.setDescription(cursor.getString(1));
+        listViewClass.setMachineId(cursor.getString((2)));
         return listViewClass;
     }
 }

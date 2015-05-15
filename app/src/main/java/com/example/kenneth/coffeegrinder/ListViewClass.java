@@ -7,6 +7,7 @@ public class ListViewClass{
     private String name;
     private String description;
     private int id;
+    private String machineId;
 
     public ListViewClass(String name, String description, int id){
         this.name = name;
@@ -36,5 +37,13 @@ public class ListViewClass{
 
     public void setId(int id){
         this.id = id;
+    }
+    
+    public String getMachineId() {
+        return machineId;
+    }
+    
+    public void setMachineId(String machineId) {
+        this.machineId = machineId;
     }
 }

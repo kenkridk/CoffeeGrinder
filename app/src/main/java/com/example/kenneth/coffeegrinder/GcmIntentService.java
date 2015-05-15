@@ -16,6 +16,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,6 +104,15 @@ public class GcmIntentService extends IntentService {
                                 //Add hidden in the subscriber list so we can check for mute
                                 //Maybe as tag on the view?
                                 String machineId = config.getString("id");
+
+                                ListViewClassDataSource datasource = new ListViewClassDataSource(this);
+                                try {
+                                    datasource.open();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                datasource.createListViewClass(config.getString("name"), machineId);
+
                                 Log.i(TAG, "Received subscription GCM message");
                                 break;
                             case "unsubscribed":

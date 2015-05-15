@@ -28,7 +28,9 @@ import com.android.volley.toolbox.Volley;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Kenneth on 22-04-2015.
@@ -96,6 +98,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view, parent, false);
         }
 
+
+
         ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
 
         TextView name = (TextView) convertView.findViewById(R.id.demoTitle);
@@ -112,6 +116,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         mute.setChecked(true);
         remove.setEnabled(false);
         mute.setEnabled(false);
+
+        Log.i("Machine ID", lvc.getMachineId());
 
         rightContainer.setVisibility(View.VISIBLE);
 
@@ -190,6 +196,15 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             @Override
             public void onClick(View v) {
                 Log.d("Mute", "Mute button was pressed");
+                SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+                Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
+                machineIds.add(lvc.getMachineId());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putStringSet("mutedMachines", machineIds);
+                editor.apply();
+                /**
+                 * Missing toggle functionality
+                 */
             }
         });
 

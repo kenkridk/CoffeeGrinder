@@ -41,19 +41,19 @@ public class NFCActivity extends ActionBarActivity {
     private TextView textViewNfc;
     private NfcAdapter nfcAdapter;
 
-    private ListViewClassDataSource datasource;
+//    private ListViewClassDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
-        datasource = new ListViewClassDataSource(this);
+        /*datasource = new ListViewClassDataSource(this);
         try {
             datasource.open();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
 
         textViewNfc = (TextView) findViewById(R.id.textViewNfc);
 
@@ -204,7 +204,7 @@ public class NFCActivity extends ActionBarActivity {
                                 //We do not receive response from the server for this so do nothing.
                                 //Could possibly add a response so we only add coffee machine on a 200 OK?
                                 textViewNfc.setText("Something went right!\n" + response);
-                                datasource.createListViewClass(result);
+//                                datasource.createListViewClass(result);
                             }
                         }, new Response.ErrorListener() {
                             @Override
