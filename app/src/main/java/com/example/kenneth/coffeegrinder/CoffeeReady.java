@@ -1,14 +1,11 @@
 package com.example.kenneth.coffeegrinder;
 
-import android.app.FragmentManager;
-import android.support.v4.app.Fragment;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -101,7 +98,7 @@ public class CoffeeReady extends ActionBarActivity implements OnMapReadyCallback
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         CoffeeReadyFragment fragment = (CoffeeReadyFragment) getSupportFragmentManager().findFragmentById(R.id.coffeeReadyTextFragment);
-        fragment.setText(location.getLatitude() + ", " + location.getLongitude());
+        fragment.setText(getIntent().getStringExtra("flavorText"));
         request(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()), Float.toString(lat), Float.toString(lon));
     }
 
