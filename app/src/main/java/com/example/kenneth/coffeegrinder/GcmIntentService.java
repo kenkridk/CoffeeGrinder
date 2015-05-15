@@ -105,6 +105,10 @@ public class GcmIntentService extends IntentService {
                                 String machineId = config.getString("id");
                                 Log.i(TAG, "Received subscription GCM message");
                                 break;
+                            case "unsubscribed":
+                                //Received when unsubscribing from a machine
+                                //Remove the machine in question from list etc.
+                                break;
                         }
                         break;
                 }
