@@ -3,14 +3,15 @@
     android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/mainContainer">
 
     <RelativeLayout
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/rightContainer"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        >
 
-        <Button
-            android:layout_width="50dp"
+        <ToggleButton
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:text="Mute"
             android:background="@color/material_blue_grey_800"
@@ -18,22 +19,24 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/buttomMute"
+            android:id="@+id/toggleButtonMute"
             android:textSize="10dp"
             >
 
-        </Button>
-        <Button
-            android:textSize="10dp"
-            android:layout_width="50dp"
-            android:layout_height="80dp"
-            android:text="Remove"
+        </ToggleButton>
+        <ImageView
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="6dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:textColor="#ffffff"
-            android:background="#604556"
+            android:background="@mipmap/remove_icon"
             android:layout_alignParentRight="true"
-            android:id="@+id/buttonRemove">
+            android:id="@+id/imageViewRemove">
 
-        </Button>
+        </ImageView>
 
     </RelativeLayout>
 

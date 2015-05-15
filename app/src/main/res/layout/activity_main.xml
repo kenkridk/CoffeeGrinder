@@ -4,30 +4,31 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:weightSum="2">
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:id="@+id/buttonViewCoffeeMachines"
-        android:background="#8f6020"
+        android:background="@drawable/round_button_coffee_machines"
         android:textColor="#ffffff"
         android:text="@string/buttonViewCoffeeMachinesText"
-        android:layout_weight="1"
-        android:textSize="30dp">
+        android:textSize="15dp"
+        >
     </Button>
 
     <Button
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:id="@+id/buttonViewSettings"
-        android:background="#8f0020"
+        android:background="@drawable/round_button_settings"
         android:textColor="#ffffff"
         android:text="@string/buttonViewSettingsText"
         android:layout_below="@+id/buttonViewCoffeeMachines"
-        android:layout_marginTop="20dp"
-        android:textSize="30dp">
+        android:layout_marginTop="16dp"
+        android:textSize="15dp">
     </Button>
 
 </LinearLayout>

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -106,12 +107,9 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         final RelativeLayout leftContainer = (RelativeLayout) convertView.findViewById(R.id.leftContainer);
         final RelativeLayout rightContainer = (RelativeLayout) convertView.findViewById(R.id.rightContainer);
 
-        final Button remove = (Button) convertView.findViewById(R.id.buttonRemove);
-        final Button mute = (Button) convertView.findViewById(R.id.buttomMute);
-
-        Log.d("removebutton width", "" + remove.getWidth());
-        Log.d("WidthToAnimate", widthToAnimate + "" + remove.getWidth());
-
+        final ImageView remove = (ImageView) convertView.findViewById(R.id.imageViewRemove);
+        final ToggleButton mute = (ToggleButton) convertView.findViewById(R.id.toggleButtonMute);
+        mute.setChecked(true);
         remove.setEnabled(false);
         mute.setEnabled(false);
 

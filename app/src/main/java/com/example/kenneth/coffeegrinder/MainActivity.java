@@ -36,6 +36,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //should hide the actionbar
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
+
         setContentView(R.layout.activity_main);
 
         i = new Intent(MainActivity.this, CoffeeService.class);
