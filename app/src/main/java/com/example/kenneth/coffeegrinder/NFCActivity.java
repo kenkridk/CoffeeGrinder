@@ -193,7 +193,6 @@ public class NFCActivity extends ActionBarActivity {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         final String arr[] = result.split("/");
-                        //TODO Implement device registration ID retrieval for insertion in request
 //                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
                         String url = "http://" + arr[0] + "/subscribe";
                         textViewNfc.setText(url);
@@ -228,8 +227,6 @@ public class NFCActivity extends ActionBarActivity {
                                 params.put("machine", arr[1]);
                                 return params;
                             }
-
-
                         };
                         queue.add(request);
                         break;
