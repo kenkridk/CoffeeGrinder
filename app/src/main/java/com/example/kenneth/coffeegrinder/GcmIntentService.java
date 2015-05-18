@@ -45,6 +45,8 @@ public class GcmIntentService extends IntentService {
             try {
                 JSONObject message = new JSONObject(extras.getString("message"));
                 JSONObject config = new JSONObject(message.getString("config"));
+                Log.d("GCM-message",message.toString());
+                JSONObject requestDescription = message.getJSONObject("response");
 
                 if (isMachineMuted(config.getString("id"))) {
                     GcmBroadcastReceiver.completeWakefulIntent(intent); //is a return needed here as well?
@@ -74,6 +76,7 @@ public class GcmIntentService extends IntentService {
                                 inquiryIntent.putExtra("time", message.getString("time"));
                                 inquiryIntent.putExtra("machine", config.getString("id"));
                                 inquiryIntent.putExtra("timeout", config.getString("timeout"));
+                                inquiryIntent.putExtra("text", requestDescription.getString("text"));
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 inquiryIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                                 startActivity(inquiryIntent);

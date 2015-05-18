@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Alan Turing is making coffee in Ada 101"
-        android:id="@+id/textView3"
+        android:id="@+id/messageTextView"
         android:gravity="center"
         android:layout_below="@+id/barTimer"
         android:layout_alignStart="@+id/linearLayout"

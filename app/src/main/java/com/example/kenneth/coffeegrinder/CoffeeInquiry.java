@@ -43,7 +43,6 @@ public class CoffeeInquiry extends FragmentActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         playNotificationSound();
-
         timeout = Integer.parseInt(getIntent().getExtras().getString("timeout"));
 
         TabAdapter = new TabPagerAdapter(getSupportFragmentManager());

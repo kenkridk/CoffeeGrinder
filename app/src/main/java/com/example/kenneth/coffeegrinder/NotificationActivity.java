@@ -36,6 +36,8 @@ public class NotificationActivity extends Fragment {
         View view = inflater.inflate(R.layout.notification_fragment, container, false);
 
         activity = (CoffeeInquiry)getActivity();
+        TextView messageTextView = (TextView) view.findViewById(R.id.messageTextView);
+        messageTextView.setText(activity.getIntent().getExtras().getString("text"));
         timeOffset = activity.getTimeout();
         progressOffset = timeOffset/1000;
         Log.d("TimeOffset", timeOffset + "");
