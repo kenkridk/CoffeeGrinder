@@ -45,8 +45,6 @@ public class GcmIntentService extends IntentService {
             try {
                 JSONObject message = new JSONObject(extras.getString("message"));
                 JSONObject config = new JSONObject(message.getString("config"));
-                Log.d("GCM-message",message.toString());
-                JSONObject requestDescription = message.getJSONObject("response");
 
                 if (isMachineMuted(config.getString("id"))) {
                     GcmBroadcastReceiver.completeWakefulIntent(intent); //is a return needed here as well?
@@ -71,6 +69,7 @@ public class GcmIntentService extends IntentService {
                         switch (message.getString("type")) {
                             case "request":
                                 //Request for whether the user wants coffee or not
+                                JSONObject requestDescription = message.getJSONObject("response");
                                 Log.i(TAG, "Received request GCM message");
                                 Intent inquiryIntent = new Intent(this, CoffeeInquiry.class);
                                 inquiryIntent.putExtra("time", message.getString("time"));
