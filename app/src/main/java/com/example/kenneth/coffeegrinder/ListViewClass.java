@@ -8,6 +8,7 @@ public class ListViewClass{
     private String description;
     private int id;
     private String machineId;
+    private String routingServer;
 
     public ListViewClass(String name, String description, int id){
         this.name = name;
@@ -45,5 +46,13 @@ public class ListViewClass{
     
     public void setMachineId(String machineId) {
         this.machineId = machineId;
+    }
+
+    public String getRoutingServer() {
+        return routingServer;
+    }
+
+    public void setRoutingServer(String routingServer) {
+        this.routingServer = routingServer;
     }
 }

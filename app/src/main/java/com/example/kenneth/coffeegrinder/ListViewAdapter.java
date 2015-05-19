@@ -6,14 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -25,16 +21,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Kenneth on 22-04-2015.
- */
 public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
     private TranslateAnimation animation;
@@ -48,7 +40,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         for(ListViewClass l : list){
             Log.d("ListViewClass id", l.getId() + "");
-            isCellsCollapsedList.add(new Boolean(true));
+            isCellsCollapsedList.add(true);
         }
 
         datasource = new ListViewClassDataSource(context);
@@ -77,7 +69,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -86,7 +79,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
     }
 
@@ -97,8 +91,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view, parent, false);
         }
-
-
 
         ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
 
@@ -144,16 +136,18 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                 //first unsubscribe. Send it to server. If deleted from server, remove from listView.
                 RequestQueue queue = Volley.newRequestQueue(getContext());
 
-                String name = lvc.getName();
+                /*String name = lvc.getName();
                 String[] splittetName = name.split("/");
 
                 final String urlId = splittetName[1];
-                String url = "http://" + splittetName[0] + "/unsubscribe";
+                String url = "http://" + splittetName[0] + "/unsubscribe";*/
+
+                String url = lvc.getRoutingServer() + "/unsubscribe";
 
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
+                        /*try {
                             datasource.open();
                             datasource.deleteListViewClass(lvc);
                             isCellsCollapsedList.remove(position);
@@ -164,7 +158,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
                         datasource.close();
 
-                        animationDestroy(leftContainer, lvc);
+                        animationDestroy(leftContainer, lvc);*/
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -183,7 +177,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                         SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
                         String deviceId = prefs.getString(GCMService.PROPERTY_REG_ID, "DEFAULT DEVICE ID");
                         params.put("android", deviceId);
-                        params.put("machine", urlId);
+                        params.put("machine", lvc.getMachineId());
                         return params;
                     }
                 };

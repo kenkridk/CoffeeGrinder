@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -17,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -105,7 +107,9 @@ public class GcmIntentService extends IntentService {
                             case "subscription": //Received when we successfully subscribe to a machine
                                 //Add hidden in the subscriber list so we can check for mute
                                 //Maybe as tag on the view?
+                                Log.i(TAG, "Received subscription GCM message");
                                 String machineId = config.getString("id");
+                                String routingServer = "http://" + config.getString("routing_server") + ":" + config.getString("routing_server_port");
 
                                 ListViewClassDataSource datasource = new ListViewClassDataSource(this);
                                 try {
@@ -113,13 +117,26 @@ public class GcmIntentService extends IntentService {
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                datasource.createListViewClass(config.getString("name"), machineId);
-
-                                Log.i(TAG, "Received subscription GCM message");
+                                datasource.createListViewClass(config.getString("name"), machineId, routingServer);
                                 break;
                             case "unsubscribed":
+                                Log.i(TAG, "Received unsubscribtion message");
                                 //Received when unsubscribing from a machine
                                 //Remove the machine in question from list etc.
+                                datasource = new ListViewClassDataSource(this);
+                                try {
+                                    datasource.open();
+                                    datasource.deleteEntryWithMachineId(config.getString("id"));
+//                                    isCellsCollapsedList.remove(position);
+
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
+                                datasource.close();
+//                                animationDestroy(leftContainer, lvc);
+                                //TODO remove the item from the listview
+
                                 break;
                         }
                         break;

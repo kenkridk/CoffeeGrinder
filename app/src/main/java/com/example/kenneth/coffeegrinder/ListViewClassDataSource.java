@@ -13,13 +13,17 @@ import java.util.List;
 public class ListViewClassDataSource {
     private SQLiteDatabase database;
     private DatabaseImpl dbHelper;
-    private String[] allColumns = {DatabaseImpl.COLUMN_ID, DatabaseImpl.COLUMN_LISTVIEWCLASS, DatabaseImpl.COLUMN_MACHINEID};
+    private String[] allColumns = {
+            DatabaseImpl.COLUMN_ID,
+            DatabaseImpl.COLUMN_LISTVIEWCLASS,
+            DatabaseImpl.COLUMN_MACHINEID,
+            DatabaseImpl.COLUMN_SERVER_URL };
 
     public ListViewClassDataSource(Context context){
         dbHelper = new DatabaseImpl(context);
     }
 
-    public void open() throws SQLException{
+    public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
 
@@ -27,10 +31,11 @@ public class ListViewClassDataSource {
         dbHelper.close();
     }
 
-    public ListViewClass createListViewClass(String listViewClass, String machineId){
+    public ListViewClass createListViewClass(String listViewClass, String machineId, String serverURL){
         ContentValues values = new ContentValues();
         values.put(DatabaseImpl.COLUMN_LISTVIEWCLASS, listViewClass);
         values.put(DatabaseImpl.COLUMN_MACHINEID, machineId);
+        values.put(DatabaseImpl.COLUMN_SERVER_URL, serverURL);
         long insertId = database.insert(DatabaseImpl.TABLE_LISTVIEWCLASS, null, values);
         Cursor cursor = database.query(DatabaseImpl.TABLE_LISTVIEWCLASS, allColumns, DatabaseImpl.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
@@ -43,8 +48,7 @@ public class ListViewClassDataSource {
     public void deleteListViewClass(ListViewClass listViewClass){
         long id = listViewClass.getId();
         System.out.println("ListViewClass deleted with id: " + id);
-        database.delete(DatabaseImpl.TABLE_LISTVIEWCLASS, DatabaseImpl.COLUMN_ID
-                + " = " + id, null);
+        database.delete(DatabaseImpl.TABLE_LISTVIEWCLASS, DatabaseImpl.COLUMN_ID + " = " + id, null);
     }
 
 
@@ -68,7 +72,19 @@ public class ListViewClassDataSource {
         listViewClass.setId((int)(cursor.getLong(0)));
         listViewClass.setName(cursor.getString(1));
         listViewClass.setDescription(cursor.getString(1));
-        listViewClass.setMachineId(cursor.getString((2)));
+        listViewClass.setMachineId(cursor.getString(2));
+        listViewClass.setRoutingServer(cursor.getString(3));
         return listViewClass;
+    }
+
+    public void deleteEntryWithMachineId(String machineIdToDelete) {
+        List<ListViewClass> allEntries = getAllListViewClasses();
+        for (ListViewClass lvc : allEntries) {
+            if (lvc.getMachineId().equals(machineIdToDelete)) {
+                long id = lvc.getId();
+                System.out.println("ListViewClass deleted with id: " + id);
+                database.delete(DatabaseImpl.TABLE_LISTVIEWCLASS, DatabaseImpl.COLUMN_ID + " = " + id, null);
+            }
+        }
     }
 }
