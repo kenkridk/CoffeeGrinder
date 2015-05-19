@@ -71,10 +71,10 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.NDEF_DISCOVERED"/>
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="p2pApp" android:host="nikander-arts.com:8080" android:path="/"/>
+                <data android:scheme="p2papp" android:host="nikander-arts.com"/>
             </intent-filter>
         </activity>
 

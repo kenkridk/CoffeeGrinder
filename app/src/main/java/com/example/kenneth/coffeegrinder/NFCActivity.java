@@ -92,7 +92,6 @@ public class NFCActivity extends ActionBarActivity {
     }
 
     private void handleIntent(Intent intent){
-        Log.d("Incoming Data","got a new data");
         String action = intent.getAction();
         if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
             String type = intent.getType();
@@ -113,6 +112,66 @@ public class NFCActivity extends ActionBarActivity {
                     break;
                 }
             }
+        }else if(intent.ACTION_VIEW.equals(action)){
+
+            Log.d(TAG,intent.getDataString());
+
+            final String result = intent.getDataString().replace("p2papp://","");
+
+            DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            final String arr[] = result.split("/");
+//                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
+                            String url = "http://" + arr[0] + "/subscribe";
+                            textViewNfc.setText(url);
+                            //maybe here we should add the coffee machine to the list of coffee machines.
+                            RequestQueue queue = Volley.newRequestQueue(NFCActivity.this);
+                            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    //We do not receive response from the server for this so do nothing.
+                                    //Could possibly add a response so we only add coffee machine on a 200 OK?
+                                    textViewNfc.setText("Something went right!\n" + response);
+//                                datasource.createListViewClass(result);
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //Called if something goes wrong in making the request
+                                    textViewNfc.setText("Something went wrong!\n" + error.toString());
+                                }
+                            }) {
+                                /**
+                                 * Override the getParams() method and change it to contain the parameters we
+                                 * want to pass to the server.
+                                 */
+                                @Override
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<>();
+                                    SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+                                    String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
+                                    Log.i("CoffeeApp", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
+                                    params.put("android", deviceID);
+                                    params.put("machine", arr[1]);
+                                    return params;
+                                }
+                            };
+                            queue.add(request);
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                    finish();
+
+                }
+            };
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(NFCActivity.this);
+            builder.setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
         }
     }
 
