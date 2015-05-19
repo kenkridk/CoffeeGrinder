@@ -112,6 +112,8 @@ public class GcmIntentService extends IntentService {
                                 String routingServer = "http://" + config.getString("routing_server") + ":" + config.getString("routing_server_port");
 
                                 ListViewClassDataSource datasource = new ListViewClassDataSource(this);
+
+
                                 try {
                                     datasource.open();
                                 } catch (SQLException e) {
@@ -127,6 +129,7 @@ public class GcmIntentService extends IntentService {
                                 try {
                                     datasource.open();
                                     datasource.deleteEntryWithMachineId(config.getString("id"));
+
 //                                    isCellsCollapsedList.remove(position);
 
                                 } catch (SQLException e) {

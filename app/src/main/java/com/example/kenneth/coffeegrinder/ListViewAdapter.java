@@ -46,6 +46,11 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         datasource = new ListViewClassDataSource(context);
     }
 
+    public void deleteCellFromListView(int position, View v, ListViewClass lvc){
+        isCellsCollapsedList.remove(position);
+        animationDestroy(v, lvc);
+    }
+
     public void animateOpenCell(View v, int position){
         animation = new TranslateAnimation(0, -widthToAnimate, 0, 0);
         animation.setDuration(200);
