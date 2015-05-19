@@ -110,7 +110,14 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         final ImageView remove = (ImageView) convertView.findViewById(R.id.imageViewRemove);
         final ToggleButton mute = (ToggleButton) convertView.findViewById(R.id.toggleButtonMute);
-        mute.setChecked(true);
+
+        //Set mute according to whether it was muted previously or not
+        SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
+        if (machineIds.contains(lvc.getMachineId())) {
+            mute.setChecked(false);
+        } else mute.setChecked(true);
+
         remove.setEnabled(false);
         mute.setEnabled(false);
 
@@ -186,7 +193,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                         return params;
                     }
                 };
-
                 queue.add(request);
             }
         });
@@ -194,16 +200,19 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Mute", "Mute button was pressed");
                 SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
                 Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
-                machineIds.add(lvc.getMachineId());
+
+                if (((ToggleButton) v).isChecked()) {
+                    machineIds.remove(lvc.getMachineId());
+                }
+                if (!((ToggleButton) v).isChecked()) {
+                    machineIds.add(lvc.getMachineId());
+                }
+
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putStringSet("mutedMachines", machineIds);
                 editor.apply();
-                /**
-                 * Missing toggle functionality
-                 */
             }
         });
 
