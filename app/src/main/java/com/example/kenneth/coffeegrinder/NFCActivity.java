@@ -92,6 +92,7 @@ public class NFCActivity extends ActionBarActivity {
     }
 
     private void handleIntent(Intent intent){
+        Log.d("Incoming Data","got a new data");
         String action = intent.getAction();
         if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
             String type = intent.getType();

@@ -67,10 +67,14 @@
             android:label="@string/title_activity_nfc" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="p2pApp" android:host="nikander-arts.com:8080" android:path="/"/>
             </intent-filter>
         </activity>
 
@@ -104,6 +108,8 @@
             android:name=".CoffeeReady"
             android:label="@string/title_activity_coffee_ready" >
         </activity>
+
+
     </application>
 
 </manifest>
