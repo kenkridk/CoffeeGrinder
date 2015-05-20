@@ -121,6 +121,13 @@ public class NFCActivity extends ActionBarActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
+                            //Check if this machine is already in the list of machines we are subscribed to
+                            if (isRegistered(result.split("/")[1])) {
+                                Toast.makeText(NFCActivity.this, "You are already subscribed to this device", Toast.LENGTH_SHORT).show();
+                                finish();
+                                break;
+                            }
+
                             final String arr[] = result.split("/");
 //                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
                             String url = "http://" + arr[0] + "/subscribe";
@@ -254,7 +261,7 @@ public class NFCActivity extends ActionBarActivity {
 
                         //Check if this machine is already in the list of machines we are subscribed to
                         if (isRegistered(arr[1])) {
-                            Toast.makeText(NFCActivity.this, "You are already registered to this device", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NFCActivity.this, "You are already subscribed to this device", Toast.LENGTH_SHORT).show();
                             finish();
                             break;
                         }

@@ -57,25 +57,10 @@ public class ViewCoffeeMachinesActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     switch (intent.getStringExtra("action")) {
-                        case "unsubscribe":
-                            ArrayList<ListViewClass> list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
-//                            Log.i("List!", "List goes here:");
-//                            for (ListViewClass lvc : list) {
-//                                Log.i("LVC", lvc.getName() + " " + lvc.getMachineId());
-//                            }
-//                            for (int i = 1; i < list.size(); i++) {
-//                                Log.i("List items", list.get(i).getMachineId());
-//                                Log.i("###### Machine ID", intent.getStringExtra("machineId"));
-//                                Log.i("###### List id", list.get(i).getMachineId());
-//                                if (list.get(i).getMachineId().equals(intent.getStringExtra("machineId"))) {
-//                                    Log.i("HER", "Found it");
-//                                    list.remove(i);
-//                                }
-                                adapter.refreshList(list);
-//                                listView.invalidate();
-//                            }
-                            break;
                         case "subscribe":
+                        case "unsubscribe":
+                                ArrayList<ListViewClass> list = (ArrayList<ListViewClass>) datasource.getAllListViewClasses();
+                                adapter.refreshList(list);
                             break;
                     }
                     datasource.close();

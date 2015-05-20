@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GcmIntentService extends IntentService {
+    private enum TypeOfMessage { FOOD, DRINK, MISC }
 
     public static final int NOTIFICATION_ID = 1;
     public static final String SUBERSCRIBER_LIST_CHANGED = "com.example.kenneth.coffeegrinder";
@@ -91,6 +92,18 @@ public class GcmIntentService extends IntentService {
                                  * -The user is NOT on the "waiting list"
                                  */
                                 JSONObject description = message.getJSONObject("description");
+                                TypeOfMessage typeOfMessage;
+                                switch (config.getString("type")) {
+                                    case "food":
+                                        typeOfMessage = TypeOfMessage.FOOD;
+                                        break;
+                                    case "misc":
+                                        typeOfMessage = TypeOfMessage.MISC;
+                                        break;
+                                    default:
+                                        typeOfMessage = TypeOfMessage.DRINK;
+                                        break;
+                                }
 
                                 if (description.getJSONArray("extras").toString().contains("show-map")) {
                                     String lat = config.getString("lat");
@@ -99,9 +112,9 @@ public class GcmIntentService extends IntentService {
                                             message.getJSONObject("description").getString("text"),
                                             config.getString("name"));
 
-                                    sendNotificationWithMap(description.getString("text"), lat, lon, flavorText);
+                                    sendNotificationWithMap(description.getString("text"), lat, lon, flavorText, typeOfMessage);
 
-                                } else sendNotification(description.getString("text"));
+                                } else sendNotification(description.getString("text"), typeOfMessage);
 
                                 Log.i(TAG, "Received notification GCM message");
                                 break;
@@ -119,6 +132,9 @@ public class GcmIntentService extends IntentService {
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
+                                Intent subscribeIntent = new Intent(SUBERSCRIBER_LIST_CHANGED);
+                                subscribeIntent.putExtra("action", "subscribe");
+                                LocalBroadcastManager.getInstance(this).sendBroadcast(subscribeIntent);
                                 break;
                             case "unsubscribed":
                                 Log.i(TAG, "Received unsubscribtion message");
@@ -128,16 +144,12 @@ public class GcmIntentService extends IntentService {
                                 try {
                                     datasource.open();
                                     datasource.deleteEntryWithMachineId(config.getString("id"));
-
-//                                    isCellsCollapsedList.remove(position);
-
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
 
                                 datasource.close();
-//                                animationDestroy(leftContainer, lvc);
-                                //TODO remove the item from the listview
+
                                 Intent subscriberChangedIntent = new Intent(SUBERSCRIBER_LIST_CHANGED);
                                 subscriberChangedIntent.putExtra("action", "unsubscribe");
                                 subscriberChangedIntent.putExtra("machineId", config.getString("id"));
@@ -162,18 +174,18 @@ public class GcmIntentService extends IntentService {
     }
 
     // Put the message into a notification and post it.
-    private void sendNotification(String msg) {
+    private void sendNotification(String msg, TypeOfMessage typeOfMessage) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg);
+        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg, typeOfMessage);
 
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
-    private void sendNotificationWithMap(String msg, String latitude, String longitude, String flavorText) {
+    private void sendNotificationWithMap(String msg, String latitude, String longitude, String flavorText, TypeOfMessage typeOfMessage) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg);
+        NotificationCompat.Builder mBuilder = makeNotificationBuilder(msg, typeOfMessage);
 
         mBuilder.setDefaults(Notification.DEFAULT_ALL);
 
@@ -187,9 +199,22 @@ public class GcmIntentService extends IntentService {
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
-    private NotificationCompat.Builder makeNotificationBuilder(String msg) {
+    private NotificationCompat.Builder makeNotificationBuilder(String msg, TypeOfMessage typeOfMessage) {
+        int iconId;
+        switch (typeOfMessage) {
+            default:
+                iconId = R.drawable.ic_stat_coffee;
+                break;
+            case FOOD:
+                iconId = R.drawable.ic_stat_food;
+                break;
+            case MISC:
+                iconId = R.drawable.ic_stat_coffee; //needs icon
+                break;
+        }
+
         return new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_coffee)
+                .setSmallIcon(iconId)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(msg))
