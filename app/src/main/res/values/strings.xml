@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">CoffeeGrinder</string>
+    <string name="app_name">Promulgate</string>
     <string name="action_settings">Settings</string>
-    <string name="buttonViewCoffeeMachinesText">Coffee machines</string>
+    <string name="buttonViewCoffeeMachinesText">Subscriptions</string>
     <string name="buttonViewSettingsText">Settings</string>
-    <string name="title_activity_view_coffee_machines">ViewCoffeeMachinesActivity</string>
+    <string name="title_activity_view_coffee_machines">View Subscriptions</string>
     <string name="buttonDelete">Delete</string>
     <string name="buttonMute">Mute</string>
     <string name="textViewSettingsText">Settings</string>
@@ -16,6 +16,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_coffee_inquiry">CoffeeInquiry</string>
-    <string name="title_activity_coffee_ready">CoffeeReady</string>
+    <string name="title_activity_coffee_inquiry">New Notification</string>
+    <string name="title_activity_coffee_ready">Ready</string>
 </resources>
