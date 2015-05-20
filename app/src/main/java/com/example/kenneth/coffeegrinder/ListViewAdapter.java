@@ -3,6 +3,7 @@ package com.example.kenneth.coffeegrinder;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,6 +114,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         Log.d("lars_inflater",convertView.isShown() ? "yes":"no");
 
         ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
+        image.setImageDrawable(getImage(lvc.getDeviceType()));
 
         TextView name = (TextView) convertView.findViewById(R.id.demoTitle);
         name.setText(lvc.getName());
@@ -236,6 +238,24 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
 
         return convertView;
+    }
+
+    private Drawable getImage(String deviceType) {
+        Drawable image;
+
+        switch (deviceType) {
+            case "food":
+                image = getContext().getResources().getDrawable(R.mipmap.ic_food);
+                break;
+            case "misc":
+                image = getContext().getResources().getDrawable(R.mipmap.ic_food); //needs icon
+                break;
+            default:
+                image = getContext().getResources().getDrawable(R.mipmap.ic_drink);
+                break;
+        }
+
+        return image;
     }
 
 }

@@ -16,8 +16,10 @@ public class ListViewClassDataSource {
     private String[] allColumns = {
             DatabaseImpl.COLUMN_ID,
             DatabaseImpl.COLUMN_LISTVIEWCLASS,
+            DatabaseImpl.COLUMN_DESCRIPTION,
             DatabaseImpl.COLUMN_MACHINEID,
-            DatabaseImpl.COLUMN_SERVER_URL };
+            DatabaseImpl.COLUMN_SERVER_URL,
+            DatabaseImpl.COLUMN_DEVICE_TYPE };
 
     public ListViewClassDataSource(Context context){
         dbHelper = new DatabaseImpl(context);
@@ -31,11 +33,13 @@ public class ListViewClassDataSource {
         dbHelper.close();
     }
 
-    public ListViewClass createListViewClass(String listViewClass, String machineId, String serverURL){
+    public ListViewClass createListViewClass(String listViewClass, String description, String machineId, String serverURL, String deviceType){
         ContentValues values = new ContentValues();
         values.put(DatabaseImpl.COLUMN_LISTVIEWCLASS, listViewClass);
+        values.put(DatabaseImpl.COLUMN_DESCRIPTION, description);
         values.put(DatabaseImpl.COLUMN_MACHINEID, machineId);
         values.put(DatabaseImpl.COLUMN_SERVER_URL, serverURL);
+        values.put(DatabaseImpl.COLUMN_DEVICE_TYPE, deviceType);
         long insertId = database.insert(DatabaseImpl.TABLE_LISTVIEWCLASS, null, values);
         Cursor cursor = database.query(DatabaseImpl.TABLE_LISTVIEWCLASS, allColumns, DatabaseImpl.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
@@ -71,9 +75,10 @@ public class ListViewClassDataSource {
         ListViewClass listViewClass = new ListViewClass("", "", 0);
         listViewClass.setId((int)(cursor.getLong(0)));
         listViewClass.setName(cursor.getString(1));
-        listViewClass.setDescription(cursor.getString(1));
-        listViewClass.setMachineId(cursor.getString(2));
-        listViewClass.setRoutingServer(cursor.getString(3));
+        listViewClass.setDescription(cursor.getString(2));
+        listViewClass.setMachineId(cursor.getString(3));
+        listViewClass.setRoutingServer(cursor.getString(4));
+        listViewClass.setDeviceType(cursor.getString(5));
         return listViewClass;
     }
 

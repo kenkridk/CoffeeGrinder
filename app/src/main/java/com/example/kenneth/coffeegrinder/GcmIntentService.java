@@ -122,12 +122,14 @@ public class GcmIntentService extends IntentService {
                                 Log.i(TAG, "Received subscription GCM message");
                                 String machineId = config.getString("id");
                                 String routingServer = "http://" + config.getString("routing_server") + ":" + config.getString("routing_server_port");
+                                String subtitle = config.getString("subtitle");
+                                String deviceType = config.getString("type");
 
                                 ListViewClassDataSource datasource = new ListViewClassDataSource(this);
 
                                 try {
                                     datasource.open();
-                                    datasource.createListViewClass(config.getString("name"), machineId, routingServer);
+                                    datasource.createListViewClass(config.getString("name"), subtitle, machineId, routingServer, deviceType);
                                     datasource.close();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
@@ -203,13 +205,13 @@ public class GcmIntentService extends IntentService {
         int iconId;
         switch (typeOfMessage) {
             default:
-                iconId = R.drawable.ic_stat_coffee;
+                iconId = R.drawable.ic_stat_drink;
                 break;
             case FOOD:
                 iconId = R.drawable.ic_stat_food;
                 break;
             case MISC:
-                iconId = R.drawable.ic_stat_coffee; //needs icon
+                iconId = R.drawable.ic_stat_drink; //needs icon
                 break;
         }
 

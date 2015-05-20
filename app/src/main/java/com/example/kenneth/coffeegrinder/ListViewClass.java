@@ -10,6 +10,7 @@ public class ListViewClass{
     private String machineId;
     private String routingServer;
     private boolean isCollapsed;
+    private String deviceType;
 
     public ListViewClass(String name, String description, int id){
         this.name = name;
@@ -64,5 +65,13 @@ public class ListViewClass{
 
     public void setRoutingServer(String routingServer) {
         this.routingServer = routingServer;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }
