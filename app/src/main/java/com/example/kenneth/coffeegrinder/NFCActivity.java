@@ -41,8 +41,6 @@ public class NFCActivity extends ActionBarActivity {
     private TextView textViewNfc;
     private NfcAdapter nfcAdapter;
 
-//    private ListViewClassDataSource datasource;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -253,18 +251,21 @@ public class NFCActivity extends ActionBarActivity {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         final String arr[] = result.split("/");
-//                      String url = "http://" + arr[0] + "/subscribe?android=" + "<Get device registration ID and insert here>" + "&machine=" + arr[1];
+
+                        //Check if this machine is already in the list of machines we are subscribed to
+                        if (isRegistered(arr[1])) {
+                            Toast.makeText(NFCActivity.this, "You are already registered to this device", Toast.LENGTH_SHORT).show();
+                            finish();
+                            break;
+                        }
                         String url = "http://" + arr[0] + "/subscribe";
                         textViewNfc.setText(url);
-                        //maybe here we should add the coffee machine to the list of coffee machines.
+
                         RequestQueue queue = Volley.newRequestQueue(NFCActivity.this);
                         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                //We do not receive response from the server for this so do nothing.
-                                //Could possibly add a response so we only add coffee machine on a 200 OK?
                                 textViewNfc.setText("Something went right!\n" + response);
-//                                datasource.createListViewClass(result);
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -296,5 +297,21 @@ public class NFCActivity extends ActionBarActivity {
                 finish();
             }
         };
+    }
+
+    public boolean isRegistered(String machineId) {
+        boolean result = false;
+
+        ListViewClassDataSource datasource = new ListViewClassDataSource(this);
+        try {
+            datasource.open();
+            for (ListViewClass lvc : datasource.getAllListViewClasses()) {
+                if (lvc.getMachineId().equals(machineId)) result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

@@ -105,21 +105,19 @@ public class GcmIntentService extends IntentService {
                                 Log.i(TAG, "Received notification GCM message");
                                 break;
                             case "subscription": //Received when we successfully subscribe to a machine
-                                //Add hidden in the subscriber list so we can check for mute
-                                //Maybe as tag on the view?
                                 Log.i(TAG, "Received subscription GCM message");
                                 String machineId = config.getString("id");
                                 String routingServer = "http://" + config.getString("routing_server") + ":" + config.getString("routing_server_port");
 
                                 ListViewClassDataSource datasource = new ListViewClassDataSource(this);
 
-
                                 try {
                                     datasource.open();
+                                    datasource.createListViewClass(config.getString("name"), machineId, routingServer);
+                                    datasource.close();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                datasource.createListViewClass(config.getString("name"), machineId, routingServer);
                                 break;
                             case "unsubscribed":
                                 Log.i(TAG, "Received unsubscribtion message");
