@@ -19,13 +19,13 @@ import java.io.IOException;
 public class GCMService extends IntentService {
     private static final boolean DEBUG = true;
 
-    public static final String USER_RECOVERABLE_ERROR = "dk.teamawesome.gcm_test.USER_RECOVERABLE_ERROR";
-    public static final String DEVICE_NOT_SUPPORTED = "dk.teamawesome.gcm_test.DEVICE_NOT_SUPPORTED";
+    public static final String USER_RECOVERABLE_ERROR = "com.example.kenneth.coffeegrinder.USER_RECOVERABLE_ERROR";
+    public static final String DEVICE_NOT_SUPPORTED = "com.example.kenneth.coffeegrinder.DEVICE_NOT_SUPPORTED";
 
     //Actions
-    public static final String INIT = "dk.teamawesome.gcm_test.INIT";
-    public static final String REREGISTER = "dk.teamawesome.gcm_test.REREGISTER";
-    public static final String CHECK_PLAY_SERVICES = "dk.teamawesome.gcm_test.CHECK_PLAY_SERVICES";
+    public static final String INIT = "com.example.kenneth.coffeegrinder.INIT";
+    public static final String REREGISTER = "com.example.kenneth.coffeegrinder.REREGISTER";
+    public static final String CHECK_PLAY_SERVICES = "com.example.kenneth.coffeegrinder.CHECK_PLAY_SERVICES";
 
     // Our project ID from Google Development Console
     private static final String SENDER_ID = "566429425839";
@@ -154,9 +154,6 @@ public class GCMService extends IntentService {
                     regId = gcm.register(SENDER_ID);
                     msg = "Device registered on ID = " + regId;
 
-                    //Send a message to third-party server with our registered ID.
-                    sendRegistrationIdToBackend();
-
                     // Persist the registration ID - no need to register again.
                     storeRegistrationId(context, regId);
                 } catch (IOException e) {
@@ -170,17 +167,6 @@ public class GCMService extends IntentService {
             }
 
         }.execute(null,null,null);
-    }
-
-    /**
-     * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP
-     * or CCS to send messages to your app. Not needed for this demo since the
-     * device sends upstream messages to a server that echoes back the message
-     * using the 'from' address in the message.
-     */
-    private void sendRegistrationIdToBackend() {
-        // Your implementation here.
-        //TODO Send our registration ID to the third party server
     }
 
     private void storeRegistrationId(Context context, String regId) {
