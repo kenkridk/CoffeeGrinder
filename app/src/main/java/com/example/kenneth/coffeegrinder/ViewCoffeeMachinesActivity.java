@@ -73,7 +73,7 @@ public class ViewCoffeeMachinesActivity extends ActionBarActivity {
 //                                }
                                 adapter.refreshList(list);
 //                                listView.invalidate();
-//                            } //Måske bare opdatere listen uden at lave nogen operationérfrgwgrw
+//                            }
                             break;
                         case "subscribe":
                             break;

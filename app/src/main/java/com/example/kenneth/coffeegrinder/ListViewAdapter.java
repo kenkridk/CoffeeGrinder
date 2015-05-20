@@ -1,5 +1,6 @@
 package com.example.kenneth.coffeegrinder;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -30,6 +32,7 @@ import java.util.Set;
 public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
     private TranslateAnimation animation;
+    private AlphaAnimation alphaAnimation;
     private ArrayList<Boolean> isCellsCollapsedList;
     private ListViewClassDataSource datasource;
     private int widthToAnimate;
@@ -61,20 +64,20 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         animationDestroy(v, lvc);
     }*/
 
-    public void animateOpenCell(View v) {
-        animation = new TranslateAnimation(0, -widthToAnimate, 0, 0);
-        animation.setDuration(200);
-        animation.setFillAfter(true);
-        v.startAnimation(animation);
+    public void animateOpenCell(final View v) {
+        ObjectAnimator oAnimator = ObjectAnimator.ofFloat(v,"translationX",0,-widthToAnimate).setDuration(200);
+        oAnimator.start();
     }
 
-    public void animateCloseCell(View v) {
-        animation = new TranslateAnimation(-widthToAnimate, 0, 0, 0);
-        animation.setDuration(200);
-        animation.setFillAfter(true);
-        v.startAnimation(animation);
+    public void animateCloseCell(final View v) {
+        ObjectAnimator oAnimator = ObjectAnimator.ofFloat(v,"translationX",-widthToAnimate,0).setDuration(200);
+        oAnimator.start();
     }
 
+    public void animatePendingCell(View v) {
+        ObjectAnimator oAnimator = ObjectAnimator.ofFloat(v, "translationX", -widthToAnimate, 0).setDuration(200);
+        oAnimator.start();
+    }
     /*public void animationDestroy(View v, final ListViewClass lvc){
         animation = new TranslateAnimation(-widthToAnimate, -v.getWidth(), 0 ,0);
         animation.setDuration(200);
@@ -97,20 +100,24 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         });
     }*/
 
+
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent){
         final ListViewClass lvc = getItem(position);
 
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view, parent, false);
+            convertView.invalidate();
         }
+        Log.d("lars_inflater",convertView.isShown() ? "yes":"no");
 
         ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
 
         TextView name = (TextView) convertView.findViewById(R.id.demoTitle);
         name.setText(lvc.getName());
 
-        TextView description = (TextView) convertView.findViewById(R.id.demoDescription);
+        final TextView description = (TextView) convertView.findViewById(R.id.demoDescription);
         description.setText(lvc.getDescription());
 
         final RelativeLayout leftContainer = (RelativeLayout) convertView.findViewById(R.id.leftContainer);
@@ -119,15 +126,15 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         final ImageView remove = (ImageView) convertView.findViewById(R.id.imageViewRemove);
         final ToggleButton mute = (ToggleButton) convertView.findViewById(R.id.toggleButtonMute);
 
-        Log.i("Removebutton", remove.getWidth() + mute.getWidth() + "");
 
-        if(!lvc.isCollapsed()) {
+        Log.i("RemovebuttonLars", remove.getWidth() + mute.getWidth() + "");
+
+    /*    if(!lvc.isCollapsed()) {
             Log.i("####", "CELL IS NOT COLLAPSED " + position);
             animateCloseCell(leftContainer);
             lvc.setCollapsed(true);
         } else Log.i("####", "CELL IS COLLAPSED " + position);
-
-
+*/
 
         //Set mute according to whether it was muted previously or not
         SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
@@ -143,10 +150,10 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         rightContainer.setVisibility(View.VISIBLE);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        leftContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lvc.isCollapsed()) {
+                if (lvc.isCollapsed()) {
                     Log.d("removebutton width", "" + remove.getWidth());
                     widthToAnimate = remove.getWidth() + mute.getWidth();
                     animateOpenCell(leftContainer);
@@ -166,6 +173,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             @Override
             public void onClick(View v) {
                 //first unsubscribe. Send it to server. If deleted from server, remove from listView.
+                animatePendingCell(leftContainer);
+                description.setText("Unsubscribing... ");
                 RequestQueue queue = Volley.newRequestQueue(getContext());
 
                 /*String name = lvc.getName();
@@ -179,18 +188,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        /*try {
-                            datasource.open();
-                            datasource.deleteListViewClass(lvc);
-                            isCellsCollapsedList.remove(position);
-
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-
-                        datasource.close();
-
-                        animationDestroy(leftContainer, lvc);*/
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -235,6 +232,8 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                 editor.apply();
             }
         });
+
+
 
         return convertView;
     }
