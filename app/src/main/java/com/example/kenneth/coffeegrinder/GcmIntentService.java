@@ -25,6 +25,7 @@ import java.util.Set;
 public class GcmIntentService extends IntentService {
 
     public static final int NOTIFICATION_ID = 1;
+    public static final String SUBERSCRIBER_LIST_CHANGED = "com.example.kenneth.coffeegrinder";
     private static final String TAG = "GCM Intent Service";
 
     public GcmIntentService() {
@@ -137,6 +138,10 @@ public class GcmIntentService extends IntentService {
                                 datasource.close();
 //                                animationDestroy(leftContainer, lvc);
                                 //TODO remove the item from the listview
+                                Intent subscriberChangedIntent = new Intent(SUBERSCRIBER_LIST_CHANGED);
+                                subscriberChangedIntent.putExtra("action", "unsubscribe");
+                                subscriberChangedIntent.putExtra("machineId", config.getString("id"));
+                                LocalBroadcastManager.getInstance(this).sendBroadcast(subscriberChangedIntent);
 
                                 break;
                         }

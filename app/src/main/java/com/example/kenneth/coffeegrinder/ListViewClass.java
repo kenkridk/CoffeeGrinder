@@ -9,11 +9,21 @@ public class ListViewClass{
     private int id;
     private String machineId;
     private String routingServer;
+    private boolean isCollapsed;
 
     public ListViewClass(String name, String description, int id){
         this.name = name;
         this.description = description;
         this.id = id;
+        this.isCollapsed = true;
+    }
+
+    public void setCollapsed(boolean collapsed) {
+        isCollapsed = collapsed;
+    }
+
+    public boolean isCollapsed() {
+        return isCollapsed;
     }
 
     public String getName(){
@@ -55,5 +65,4 @@ public class ListViewClass{
     public void setRoutingServer(String routingServer) {
         this.routingServer = routingServer;
     }
-
 }

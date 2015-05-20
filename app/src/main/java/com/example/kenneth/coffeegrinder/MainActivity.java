@@ -28,7 +28,6 @@ public class MainActivity extends ActionBarActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     //Thomas
 
-    private Intent i;
     private Button viewCoffeeMachines;
     private Button viewSettings;
 
@@ -43,13 +42,10 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        i = new Intent(MainActivity.this, CoffeeService.class);
-
         initializeButtons();
         initializeListeners();
 
         //start service that notifies about new subscribers
-        startService(i);
 
         //Thomas
         if (DEBUG) Log.i(GCM_TAG, "OnCreate");
@@ -138,7 +134,6 @@ public class MainActivity extends ActionBarActivity {
     public void onDestroy(){
         super.onDestroy();
         if (DEBUG) Log.i(GCM_TAG, "onDestroy");
-        stopService(i);
     }
 
     @Override

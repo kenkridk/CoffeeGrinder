@@ -33,6 +33,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     private ArrayList<Boolean> isCellsCollapsedList;
     private ListViewClassDataSource datasource;
     private int widthToAnimate;
+    private ArrayList<ListViewClass> list;
 
     public ListViewAdapter(Context context, ArrayList<ListViewClass> list){
         super(context, 0, list);
@@ -44,30 +45,37 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         }
 
         datasource = new ListViewClassDataSource(context);
+        this.list = list;
     }
 
-    public void deleteCellFromListView(int position, View v, ListViewClass lvc){
+    public void refreshList(ArrayList<ListViewClass> list) {
+        this.list.clear();
+        this.list.addAll(list);
+//        isCellsCollapsedList.set(position, true);
+        notifyDataSetChanged();
+
+    }
+
+    /*public void deleteCellFromListView(int position, View v, ListViewClass lvc){
         isCellsCollapsedList.remove(position);
         animationDestroy(v, lvc);
-    }
+    }*/
 
-    public void animateOpenCell(View v, int position){
+    public void animateOpenCell(View v) {
         animation = new TranslateAnimation(0, -widthToAnimate, 0, 0);
         animation.setDuration(200);
         animation.setFillAfter(true);
         v.startAnimation(animation);
-        isCellsCollapsedList.set(position, false);
     }
 
-    public void animateCloseCell(View v, int position){
+    public void animateCloseCell(View v) {
         animation = new TranslateAnimation(-widthToAnimate, 0, 0, 0);
         animation.setDuration(200);
         animation.setFillAfter(true);
         v.startAnimation(animation);
-        isCellsCollapsedList.set(position, true);
     }
 
-    public void animationDestroy(View v, final ListViewClass lvc){
+    /*public void animationDestroy(View v, final ListViewClass lvc){
         animation = new TranslateAnimation(-widthToAnimate, -v.getWidth(), 0 ,0);
         animation.setDuration(200);
         v.startAnimation(animation);
@@ -87,7 +95,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             public void onAnimationRepeat(Animation animation) {
             }
         });
-    }
+    }*/
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent){
@@ -111,6 +119,16 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         final ImageView remove = (ImageView) convertView.findViewById(R.id.imageViewRemove);
         final ToggleButton mute = (ToggleButton) convertView.findViewById(R.id.toggleButtonMute);
 
+        Log.i("Removebutton", remove.getWidth() + mute.getWidth() + "");
+
+        if(!lvc.isCollapsed()) {
+            Log.i("####", "CELL IS NOT COLLAPSED " + position);
+            animateCloseCell(leftContainer);
+            lvc.setCollapsed(true);
+        } else Log.i("####", "CELL IS COLLAPSED " + position);
+
+
+
         //Set mute according to whether it was muted previously or not
         SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
         Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
@@ -128,14 +146,16 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCellsCollapsedList.get(position)) {
+                if(lvc.isCollapsed()) {
                     Log.d("removebutton width", "" + remove.getWidth());
                     widthToAnimate = remove.getWidth() + mute.getWidth();
-                    animateOpenCell(leftContainer, position);
+                    animateOpenCell(leftContainer);
+                    lvc.setCollapsed(false);
                     remove.setEnabled(true);
                     mute.setEnabled(true);
-                }else {
-                    animateCloseCell(leftContainer, position);
+                } else {
+                    animateCloseCell(leftContainer);
+                    lvc.setCollapsed(true);
                     remove.setEnabled(false);
                     mute.setEnabled(false);
                 }
@@ -218,4 +238,5 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         return convertView;
     }
+
 }
