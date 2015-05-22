@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,9 @@ public class NFCActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_nfc);
 
         /*datasource = new ListViewClassDataSource(this);
@@ -176,7 +179,7 @@ public class NFCActivity extends ActionBarActivity {
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(NFCActivity.this);
-            builder.setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
+            builder.setTitle("Promulgate.JS").setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
         }
     }
 
@@ -246,10 +249,9 @@ public class NFCActivity extends ActionBarActivity {
 
             this.result = result;
             Log.d("Read content", result);
-//                textViewNfc.setText("NFC: " + result);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(NFCActivity.this);
-            builder.setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
+            builder.setTitle("Promulgate.JS").setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
         }
 
         DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
