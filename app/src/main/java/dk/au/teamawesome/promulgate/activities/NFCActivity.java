@@ -148,7 +148,6 @@ public class NFCActivity extends ActionBarActivity {
                                     //We do not receive response from the server for this so do nothing.
                                     //Could possibly add a response so we only add coffee machine on a 200 OK?
                                     textViewNfc.setText("Something went right!\n" + response);
-//                                datasource.createListViewClass(result);
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -166,7 +165,7 @@ public class NFCActivity extends ActionBarActivity {
                                     Map<String, String> params = new HashMap<>();
                                     SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
                                     String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
-                                    Log.i("CoffeeApp", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
+                                    Log.i("Promulgate", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
                                     params.put("android", deviceID);
                                     params.put("machine", arr[1]);
                                     return params;
@@ -181,7 +180,6 @@ public class NFCActivity extends ActionBarActivity {
 
                 }
             };
-
 
             AlertDialog.Builder builder = new AlertDialog.Builder(NFCActivity.this);
             builder.setTitle("Promulgate.JS").setMessage("Do you want to subscribe to this machine?").setNegativeButton("No", dialogListener).setPositiveButton("Yes", dialogListener).show();
@@ -297,7 +295,7 @@ public class NFCActivity extends ActionBarActivity {
                                 Map<String, String> params = new HashMap<>();
                                 SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
                                 String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
-                                Log.i("CoffeeApp", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
+                                Log.i("Promulgate", "Requesting subscription on " + arr[1] + " with device ID " + deviceID);
                                 params.put("android", deviceID);
                                 params.put("machine", arr[1]);
                                 return params;

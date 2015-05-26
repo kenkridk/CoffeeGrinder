@@ -25,7 +25,7 @@ public class NotificationActivity extends Fragment {
     private float timerAlpha = 100f;
     private TextView tv;
     private long deadline = 0;
-    private CoffeeInquiry activity;
+    private InquiryActivity activity;
     private int timeOffset;
     private int progressOffset;
 
@@ -34,7 +34,7 @@ public class NotificationActivity extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.notification_fragment, container, false);
 
-        activity = (CoffeeInquiry)getActivity();
+        activity = (InquiryActivity)getActivity();
         TextView messageTextView = (TextView) view.findViewById(R.id.messageTextView);
         messageTextView.setText(activity.getIntent().getExtras().getString("text"));
         timeOffset = activity.getTimeout();

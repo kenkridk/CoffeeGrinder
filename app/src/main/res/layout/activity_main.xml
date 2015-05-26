@@ -18,10 +18,10 @@
     <Button
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:id="@+id/buttonViewCoffeeMachines"
+        android:id="@+id/buttonViewSubscriptions"
         android:background="@drawable/round_button_coffee_machines"
         android:textColor="#ffffff"
-        android:text="@string/buttonViewCoffeeMachinesText"
+        android:text="@string/buttonViewSubscriptionsText"
         android:textSize="15dp"
         >
     </Button>
@@ -33,7 +33,7 @@
         android:background="@drawable/round_button_settings"
         android:textColor="#ffffff"
         android:text="@string/buttonViewSettingsText"
-        android:layout_below="@+id/buttonViewCoffeeMachines"
+        android:layout_below="@+id/buttonViewSubscriptions"
         android:layout_marginTop="16dp"
         android:textSize="15dp">
     </Button>

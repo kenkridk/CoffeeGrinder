@@ -48,8 +48,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dk.au.teamawesome.promulgate.activities.ViewCoffeeMachinesActivity"
-            android:label="@string/title_activity_view_coffee_machines"
+            android:name=".activities.ViewSubscribtionsActivity"
+            android:label="@string/title_activity_view_subscriptions"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -57,10 +57,6 @@
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" >
         </activity>
-
-        <service
-            android:name="dk.au.teamawesome.promulgate.services.CoffeeService"
-            android:enabled="true" />
 
         <activity
             android:name="dk.au.teamawesome.promulgate.activities.NFCActivity"
@@ -101,12 +97,12 @@
         </service>
 
         <activity
-            android:name="dk.au.teamawesome.promulgate.activities.CoffeeInquiry"
-            android:label="@string/title_activity_coffee_inquiry" >
+            android:name=".activities.InquiryActivity"
+            android:label="@string/title_activity_inquiry" >
         </activity>
         <activity
-            android:name="dk.au.teamawesome.promulgate.activities.CoffeeReady"
-            android:label="@string/title_activity_coffee_ready" >
+            android:name=".activities.ShowMapActivity"
+            android:label="@string/title_activity_show_map" >
         </activity>
 
 

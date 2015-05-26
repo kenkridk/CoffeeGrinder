@@ -9,9 +9,9 @@
         android:layout_weight="3"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coffeeReadyTextFragment"
-        android:name="dk.au.teamawesome.promulgate.fragments.CoffeeReadyFragment"
-        tools:layout="@layout/fragment_coffee_ready"
+        android:id="@+id/showMapTextFragment"
+        android:name="dk.au.teamawesome.promulgate.fragments.ShowMapTextFragment"
+        tools:layout="@layout/fragment_show_map_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,7 +20,7 @@
         class="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/coffeeReadyMapFragment" />
+        android:id="@+id/showMapFragment" />
 </LinearLayout>
 
 

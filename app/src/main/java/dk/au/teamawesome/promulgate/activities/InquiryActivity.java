@@ -33,7 +33,7 @@ import java.util.Map;
 import dk.au.teamawesome.promulgate.fragments.TabPagerAdapter;
 import dk.au.teamawesome.promulgate.services.GCMService;
 
-public class CoffeeInquiry extends FragmentActivity {
+public class InquiryActivity extends FragmentActivity {
 
     ViewPager tab;
     TabPagerAdapter TabAdapter;
@@ -43,7 +43,7 @@ public class CoffeeInquiry extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coffee_inquiry);
+        setContentView(R.layout.activity_inquiry);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         playNotificationSound();
@@ -101,7 +101,7 @@ public class CoffeeInquiry extends FragmentActivity {
                                 Map<String, String> params = new HashMap<>();
                                 SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
                                 String deviceID = prefs.getString(GCMService.PROPERTY_REG_ID, "DefaultDeviceID");
-                                Log.i("CoffeeApp", "Requesting subscription on " + getIntent().getExtras().getString("machine") + " with device ID " + deviceID);
+                                Log.i("Promulgate", "Requesting subscription on " + getIntent().getExtras().getString("machine") + " with device ID " + deviceID);
                                 params.put("android", deviceID);
                                 params.put("machine", getIntent().getExtras().getString("machine"));
                                 params.put("answer", "true");
@@ -182,7 +182,7 @@ public class CoffeeInquiry extends FragmentActivity {
             // The last two arguments ensure LayoutParams are inflated
             // properly.
             View rootView = inflater.inflate(
-                    R.layout.activity_coffee_inquiry, container, false);
+                    R.layout.activity_inquiry, container, false);
             Bundle args = getArguments();
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                     Integer.toString(args.getInt(ARG_OBJECT)));

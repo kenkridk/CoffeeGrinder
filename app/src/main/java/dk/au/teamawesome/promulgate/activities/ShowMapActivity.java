@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,10 +33,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import dk.au.teamawesome.promulgate.fragments.CoffeeReadyFragment;
+import dk.au.teamawesome.promulgate.fragments.ShowMapTextFragment;
 
 
-public class CoffeeReady extends ActionBarActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     GoogleApiClient googleApiClient;
     float lat = 0.0f, lon = 0.0f;
@@ -43,13 +44,15 @@ public class CoffeeReady extends ActionBarActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coffee_ready);
+        getSupportActionBar().hide();
+        setContentView(R.layout.activity_show_map);
 
         buildGoogleApiClient();
         googleApiClient.connect();
 
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.coffeeReadyMapFragment);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.showMapFragment);
         mapFragment.getMapAsync(this);
     }
 
@@ -77,7 +80,7 @@ public class CoffeeReady extends ActionBarActivity implements OnMapReadyCallback
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_coffee_ready, menu);
+        getMenuInflater().inflate(R.menu.menu_show_map, menu);
         return true;
     }
 
@@ -100,7 +103,7 @@ public class CoffeeReady extends ActionBarActivity implements OnMapReadyCallback
     @Override
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        CoffeeReadyFragment fragment = (CoffeeReadyFragment) getSupportFragmentManager().findFragmentById(R.id.coffeeReadyTextFragment);
+        ShowMapTextFragment fragment = (ShowMapTextFragment) getSupportFragmentManager().findFragmentById(R.id.showMapTextFragment);
         fragment.setText(getIntent().getStringExtra("flavorText"));
         request(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()), Float.toString(lat), Float.toString(lon));
     }

@@ -28,9 +28,8 @@ public class MainActivity extends ActionBarActivity {
     //Tag for log
     private static final String GCM_TAG = "GCM-Test";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    //Thomas
 
-    private Button viewCoffeeMachines;
+    private Button viewSubscritions;
     private Button viewSettings;
 
     @Override
@@ -49,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
 
         //start service that notifies about new subscribers
 
-        //Thomas
         if (DEBUG) Log.i(GCM_TAG, "OnCreate");
 
         /**
@@ -84,16 +82,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initializeButtons(){
-        viewCoffeeMachines = (Button) findViewById(R.id.buttonViewCoffeeMachines);
+        viewSubscritions = (Button) findViewById(R.id.buttonViewSubscriptions);
         viewSettings = (Button) findViewById(R.id.buttonViewSettings);
     }
 
     public void initializeListeners(){
-        viewCoffeeMachines.setOnClickListener(new View.OnClickListener() {
+        viewSubscritions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //start new activity showing listed/available coffee machines
-                Intent i = new Intent(MainActivity.this, ViewCoffeeMachinesActivity.class);
+                Intent i = new Intent(MainActivity.this, ViewSubscribtionsActivity.class);
                 startActivity(i);
             }
         });
@@ -101,10 +99,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //start new activity showing settings
-//                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                Intent i = new Intent(MainActivity.this, CoffeeReady.class);
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                /*Intent i = new Intent(MainActivity.this, ShowMapActivity.class);
                 i.putExtra("latitude", "56.153498");
-                i.putExtra("longitude", "10.208037");
+                i.putExtra("longitude", "10.208037");*/
                 startActivity(i);
             }
         });

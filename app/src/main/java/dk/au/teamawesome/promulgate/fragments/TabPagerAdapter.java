@@ -1,16 +1,11 @@
 package dk.au.teamawesome.promulgate.fragments;
 
-/**
- * Created by Nikander on 17-04-2015.
- */
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import dk.au.teamawesome.promulgate.activities.NotificationActivity;
-import dk.au.teamawesome.promulgate.fragments.NoFragment;
-import dk.au.teamawesome.promulgate.fragments.YesFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
     public TabPagerAdapter(FragmentManager fm) {
@@ -21,13 +16,13 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                Log.d("CoffeeApp_0", "Yes");
+                Log.d("Promulgate", "Yes");
                 return new YesFragment();
             case 1:
                 //Fragment for Ios tab
                 return new NotificationActivity();
             case 2:
-                Log.d("CoffeeApp_0", "YNo");
+                Log.d("Promulgate", "YNo");
                 //Fragment for Windows tab
                 return new NoFragment();
         }

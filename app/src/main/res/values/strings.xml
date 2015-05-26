@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Promulgate</string>
     <string name="action_settings">Settings</string>
-    <string name="buttonViewCoffeeMachinesText">Subscriptions</string>
+    <string name="buttonViewSubscriptionsText">Subscriptions</string>
     <string name="buttonViewSettingsText">Settings</string>
-    <string name="title_activity_view_coffee_machines">View Subscriptions</string>
+    <string name="title_activity_view_subscriptions">View Subscriptions</string>
     <string name="buttonDelete">Delete</string>
     <string name="buttonMute">Mute</string>
     <string name="textViewSettingsText">Settings</string>
@@ -11,11 +11,11 @@
     <string name="title_activity_nfc">NFCActivity</string>
 
     <string name="time_up">Time Is Up\!</string>
-    <string name="notifying_server">Notifying server, please wait...</string>
+    <string name="notifying_server">Notifying server, please wait…</string>
     <string name="server_error">Couldn\'t find server :(</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_coffee_inquiry">New Notification</string>
-    <string name="title_activity_coffee_ready">Ready</string>
+    <string name="title_activity_inquiry">New Notification</string>
+    <string name="title_activity_show_map">Ready</string>
 </resources>

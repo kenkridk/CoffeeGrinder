@@ -22,7 +22,7 @@ import dk.au.teamawesome.promulgate.containers.ListViewClass;
 import dk.au.teamawesome.promulgate.views.ListViewClassDataSource;
 
 
-public class ViewCoffeeMachinesActivity extends ActionBarActivity {
+public class ViewSubscribtionsActivity extends ActionBarActivity {
 
     IntentFilter intentFilter;
     BroadcastReceiver broadcastReceiver;
@@ -33,7 +33,7 @@ public class ViewCoffeeMachinesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
-        setContentView(R.layout.activity_view_coffee_machines);
+        setContentView(R.layout.activity_view_subscriptions);
 
         intentFilter = new IntentFilter(GcmIntentService.SUBERSCRIBER_LIST_CHANGED);
 
@@ -58,7 +58,7 @@ public class ViewCoffeeMachinesActivity extends ActionBarActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    ListViewClassDataSource datasource = new ListViewClassDataSource(ViewCoffeeMachinesActivity.this);
+                    ListViewClassDataSource datasource = new ListViewClassDataSource(ViewSubscribtionsActivity.this);
                     try {
                         datasource.open();
                     } catch (SQLException e) {

@@ -22,10 +22,10 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import dk.au.teamawesome.promulgate.activities.CoffeeInquiry;
+import dk.au.teamawesome.promulgate.activities.InquiryActivity;
 import dk.au.teamawesome.promulgate.contentproviders.GcmBroadcastReceiver;
 import dk.au.teamawesome.promulgate.views.ListViewClassDataSource;
-import dk.au.teamawesome.promulgate.activities.CoffeeReady;
+import dk.au.teamawesome.promulgate.activities.ShowMapActivity;
 import dk.au.teamawesome.promulgate.activities.MainActivity;
 
 public class GcmIntentService extends IntentService {
@@ -44,9 +44,6 @@ public class GcmIntentService extends IntentService {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
-        //The toast gets stuck
-        //Toast.makeText(getApplicationContext(), "intentService onHandleIntent", Toast.LENGTH_SHORT).show();
-
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
@@ -57,7 +54,7 @@ public class GcmIntentService extends IntentService {
                 JSONObject config = new JSONObject(message.getString("config"));
 
                 if (isMachineMuted(config.getString("id"))) {
-                    GcmBroadcastReceiver.completeWakefulIntent(intent); //is a return needed here as well?
+                    GcmBroadcastReceiver.completeWakefulIntent(intent);
                     return;
                 }
 
@@ -81,7 +78,7 @@ public class GcmIntentService extends IntentService {
                                 //Request for whether the user wants coffee or not
                                 JSONObject requestDescription = message.getJSONObject("response");
                                 Log.i(TAG, "Received request GCM message");
-                                Intent inquiryIntent = new Intent(this, CoffeeInquiry.class);
+                                Intent inquiryIntent = new Intent(this, InquiryActivity.class);
                                 inquiryIntent.putExtra("time", message.getString("time"));
                                 inquiryIntent.putExtra("machine", config.getString("id"));
                                 inquiryIntent.putExtra("timeout", config.getString("timeout"));
@@ -197,7 +194,7 @@ public class GcmIntentService extends IntentService {
 
         mBuilder.setDefaults(Notification.DEFAULT_ALL);
 
-        Intent intent = new Intent(this, CoffeeReady.class);
+        Intent intent = new Intent(this, ShowMapActivity.class);
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
         intent.putExtra("flavorText", flavorText);

@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 
 import dk.au.teamawesome.promulgate.R;
 
-/**
- * Created by Nikander on 17-04-2015.
- */
 public class NoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
