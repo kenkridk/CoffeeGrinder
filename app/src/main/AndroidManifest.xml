@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kenneth.coffeegrinder" >
+    package="dk.au.teamawesome.promulgate" >
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,10 +16,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <permission
-        android:name="com.example.kenneth.coffeegrinder.permission.C2D_MESSAGE"
+        android:name="dk.au.teamawesome.promulgate.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.kenneth.coffeegrinder.permission.C2D_MESSAGE" />
+    <uses-permission android:name="dk.au.teamawesome.promulgate.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:name="android.hardware.nfc"
@@ -38,7 +38,7 @@
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBNFijds-2Izf1dIE-QNdmod5lC9in9K5A"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="dk.au.teamawesome.promulgate.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -48,22 +48,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewCoffeeMachinesActivity"
+            android:name="dk.au.teamawesome.promulgate.activities.ViewCoffeeMachinesActivity"
             android:label="@string/title_activity_view_coffee_machines"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="dk.au.teamawesome.promulgate.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" >
         </activity>
 
         <service
-            android:name=".CoffeeService"
+            android:name="dk.au.teamawesome.promulgate.services.CoffeeService"
             android:enabled="true" />
 
         <activity
-            android:name=".NFCActivity"
+            android:name="dk.au.teamawesome.promulgate.activities.NFCActivity"
             android:label="@string/title_activity_nfc" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -79,33 +79,33 @@
         </activity>
 
         <service
-            android:name=".GcmIntentService"
+            android:name="dk.au.teamawesome.promulgate.services.GcmIntentService"
             android:exported="false" >
         </service>
 
         <receiver
-            android:name=".GcmBroadcastReceiver"
+            android:name="dk.au.teamawesome.promulgate.contentproviders.GcmBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.example.kenneth.coffeegrinder" />
+                <category android:name="dk.au.teamawesome.promulgate" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".GCMService"
+            android:name="dk.au.teamawesome.promulgate.services.GCMService"
             android:exported="false" >
         </service>
 
         <activity
-            android:name=".CoffeeInquiry"
+            android:name="dk.au.teamawesome.promulgate.activities.CoffeeInquiry"
             android:label="@string/title_activity_coffee_inquiry" >
         </activity>
         <activity
-            android:name=".CoffeeReady"
+            android:name="dk.au.teamawesome.promulgate.activities.CoffeeReady"
             android:label="@string/title_activity_coffee_ready" >
         </activity>
 

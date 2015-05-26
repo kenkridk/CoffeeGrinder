@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.containers;
 
 /**
  * Created by Kenneth on 21-04-2015.

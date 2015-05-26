@@ -1,14 +1,16 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.views;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import dk.au.teamawesome.promulgate.contentproviders.DatabaseImpl;
+import dk.au.teamawesome.promulgate.containers.ListViewClass;
 
 public class ListViewClassDataSource {
     private SQLiteDatabase database;

@@ -1,9 +1,11 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import dk.au.teamawesome.promulgate.R;
 
 
 public class SettingsActivity extends ActionBarActivity {

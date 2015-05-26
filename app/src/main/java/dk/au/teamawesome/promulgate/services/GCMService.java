@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -16,16 +16,18 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
+import dk.au.teamawesome.promulgate.activities.MainActivity;
+
 public class GCMService extends IntentService {
     private static final boolean DEBUG = true;
 
-    public static final String USER_RECOVERABLE_ERROR = "com.example.kenneth.coffeegrinder.USER_RECOVERABLE_ERROR";
-    public static final String DEVICE_NOT_SUPPORTED = "com.example.kenneth.coffeegrinder.DEVICE_NOT_SUPPORTED";
+    public static final String USER_RECOVERABLE_ERROR = "dk.au.teamawesome.promulgate.USER_RECOVERABLE_ERROR";
+    public static final String DEVICE_NOT_SUPPORTED = "dk.au.teamawesome.promulgate.DEVICE_NOT_SUPPORTED";
 
     //Actions
-    public static final String INIT = "com.example.kenneth.coffeegrinder.INIT";
-    public static final String REREGISTER = "com.example.kenneth.coffeegrinder.REREGISTER";
-    public static final String CHECK_PLAY_SERVICES = "com.example.kenneth.coffeegrinder.CHECK_PLAY_SERVICES";
+    public static final String INIT = "dk.au.teamawesome.promulgate.INIT";
+    public static final String REREGISTER = "dk.au.teamawesome.promulgate.REREGISTER";
+    public static final String CHECK_PLAY_SERVICES = "dk.au.teamawesome.promulgate.CHECK_PLAY_SERVICES";
 
     // Our project ID from Google Development Console
     private static final String SENDER_ID = "566429425839";

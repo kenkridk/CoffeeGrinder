@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.contentproviders;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

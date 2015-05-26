@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,12 +27,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import dk.au.teamawesome.promulgate.R;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import dk.au.teamawesome.promulgate.services.GCMService;
+import dk.au.teamawesome.promulgate.containers.ListViewClass;
+import dk.au.teamawesome.promulgate.views.ListViewClassDataSource;
 
 
 public class NFCActivity extends ActionBarActivity {

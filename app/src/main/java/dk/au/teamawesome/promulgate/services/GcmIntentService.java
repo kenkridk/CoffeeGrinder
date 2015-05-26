@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.services;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -12,21 +12,27 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import dk.au.teamawesome.promulgate.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import dk.au.teamawesome.promulgate.activities.CoffeeInquiry;
+import dk.au.teamawesome.promulgate.contentproviders.GcmBroadcastReceiver;
+import dk.au.teamawesome.promulgate.views.ListViewClassDataSource;
+import dk.au.teamawesome.promulgate.activities.CoffeeReady;
+import dk.au.teamawesome.promulgate.activities.MainActivity;
 
 public class GcmIntentService extends IntentService {
     private enum TypeOfMessage { FOOD, DRINK, MISC }
 
     public static final int NOTIFICATION_ID = 1;
-    public static final String SUBERSCRIBER_LIST_CHANGED = "com.example.kenneth.coffeegrinder";
+    public static final String SUBERSCRIBER_LIST_CHANGED = "dk.au.teamawesome.promulgate";
     private static final String TAG = "GCM Intent Service";
 
     public GcmIntentService() {
@@ -45,7 +51,7 @@ public class GcmIntentService extends IntentService {
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
 
-        if (!extras.isEmpty()) {
+        if (!extras.isEmpty() && extras.getString("message")!=null) {
             try {
                 JSONObject message = new JSONObject(extras.getString("message"));
                 JSONObject config = new JSONObject(message.getString("config"));

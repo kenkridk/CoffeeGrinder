@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,9 +25,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import dk.au.teamawesome.promulgate.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import dk.au.teamawesome.promulgate.fragments.TabPagerAdapter;
+import dk.au.teamawesome.promulgate.services.GCMService;
 
 public class CoffeeInquiry extends FragmentActivity {
 

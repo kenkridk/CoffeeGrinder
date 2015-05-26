@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import dk.au.teamawesome.promulgate.R;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import dk.au.teamawesome.promulgate.services.GCMService;
 
 public class MainActivity extends ActionBarActivity {
 

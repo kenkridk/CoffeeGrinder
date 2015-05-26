@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -10,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import dk.au.teamawesome.promulgate.R;
+
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Nikander on 17-04-2015.
- */
 public class NotificationActivity extends Fragment {
 
 

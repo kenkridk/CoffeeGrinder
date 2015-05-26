@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,11 +7,19 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.ListView;
+
+
+import dk.au.teamawesome.promulgate.R;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import dk.au.teamawesome.promulgate.services.GcmIntentService;
+import dk.au.teamawesome.promulgate.views.ListViewAdapter;
+import dk.au.teamawesome.promulgate.containers.ListViewClass;
+import dk.au.teamawesome.promulgate.views.ListViewClassDataSource;
 
 
 public class ViewCoffeeMachinesActivity extends ActionBarActivity {

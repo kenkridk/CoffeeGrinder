@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.views;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
@@ -23,12 +22,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import dk.au.teamawesome.promulgate.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import dk.au.teamawesome.promulgate.activities.MainActivity;
+import dk.au.teamawesome.promulgate.containers.ListViewClass;
+import dk.au.teamawesome.promulgate.services.GCMService;
 
 public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 

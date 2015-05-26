@@ -1,4 +1,4 @@
-package com.example.kenneth.coffeegrinder;
+package dk.au.teamawesome.promulgate.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dk.au.teamawesome.promulgate.R;
+
 /**
  * Created by Nikander on 17-04-2015.
  */
-public class NoActivity extends Fragment {
+public class NoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
