@@ -5,9 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by Kenneth on 04-05-2015.
- */
 public class DatabaseImpl extends SQLiteOpenHelper {
 
     public static final String TABLE_LISTVIEWCLASS = "listViewClass";

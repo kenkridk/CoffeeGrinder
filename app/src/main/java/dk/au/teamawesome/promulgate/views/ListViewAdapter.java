@@ -59,7 +59,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
     public void refreshList(ArrayList<ListViewClass> list) {
         this.list.clear();
         this.list.addAll(list);
-//        isCellsCollapsedList.set(position, true);
         notifyDataSetChanged();
 
     }
@@ -135,13 +134,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
         Log.i("RemovebuttonLars", remove.getWidth() + mute.getWidth() + "");
 
-    /*    if(!lvc.isCollapsed()) {
-            Log.i("####", "CELL IS NOT COLLAPSED " + position);
-            animateCloseCell(leftContainer);
-            lvc.setCollapsed(true);
-        } else Log.i("####", "CELL IS COLLAPSED " + position);
-*/
-
         //Set mute according to whether it was muted previously or not
         SharedPreferences prefs = getContext().getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
         Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
@@ -182,12 +174,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                 animatePendingCell(leftContainer);
                 description.setText("Unsubscribing... ");
                 RequestQueue queue = Volley.newRequestQueue(getContext());
-
-                /*String name = lvc.getName();
-                String[] splittetName = name.split("/");
-
-                final String urlId = splittetName[1];
-                String url = "http://" + splittetName[0] + "/unsubscribe";*/
 
                 String url = lvc.getRoutingServer() + "/unsubscribe";
 
@@ -239,8 +225,6 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
             }
         });
 
-
-
         return convertView;
     }
 
@@ -252,7 +236,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
                 image = getContext().getResources().getDrawable(R.mipmap.ic_food);
                 break;
             case "misc":
-                image = getContext().getResources().getDrawable(R.mipmap.ic_food); //needs icon
+                image = getContext().getResources().getDrawable(R.mipmap.ic_misc);
                 break;
             default:
                 image = getContext().getResources().getDrawable(R.mipmap.ic_drink);

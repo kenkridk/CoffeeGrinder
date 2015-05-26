@@ -1,8 +1,5 @@
 package dk.au.teamawesome.promulgate.containers;
 
-/**
- * Created by Kenneth on 21-04-2015.
- */
 public class ListViewClass{
     private String name;
     private String description;

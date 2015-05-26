@@ -217,7 +217,7 @@ public class GcmIntentService extends IntentService {
                 iconId = R.drawable.ic_stat_food;
                 break;
             case MISC:
-                iconId = R.drawable.ic_stat_drink; //needs icon
+                iconId = R.drawable.ic_stat_misc;
                 break;
         }
 

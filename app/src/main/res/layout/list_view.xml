@@ -50,7 +50,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/coffee_icon" />
+            android:src="@mipmap/ic_drink" />
 
         <TextView
             android:layout_width="wrap_content"
