@@ -68,7 +68,6 @@ public class GcmIntentService extends IntentService {
                         Log.i(TAG, "GCM: MESSAGE_TYPE_DELETED");
                         break;
                     case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-//                    sendNotification("Received " + extras.toString());
                         Log.i(TAG, "GCM received " + extras.toString());
 
                         Log.i(TAG, "JSON toString" + message.toString());
@@ -89,8 +88,8 @@ public class GcmIntentService extends IntentService {
                                 break;
                             case "notification":
                                 /**
-                                 * -Coffee is being brewed
-                                 * -Coffee is done
+                                 * -"Product" is on the way
+                                 * -"Product" is ready
                                  * -The user is on the "waiting list"
                                  * -The user is NOT on the "waiting list"
                                  */
@@ -175,10 +174,10 @@ public class GcmIntentService extends IntentService {
     private boolean isMachineMuted(String id) {
         SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
         Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
-        return machineIds != null && machineIds.contains(id);
+        String muteAll = prefs.getString("muteAll", "false");
+        return machineIds != null && machineIds.contains(id) || muteAll.equals("true");
     }
 
-    // Put the message into a notification and post it.
     private void sendNotification(String msg, TypeOfMessage typeOfMessage) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 

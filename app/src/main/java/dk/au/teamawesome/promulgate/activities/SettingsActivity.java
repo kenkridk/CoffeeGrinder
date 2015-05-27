@@ -1,15 +1,22 @@
 package dk.au.teamawesome.promulgate.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.ToggleButton;
 
 import dk.au.teamawesome.promulgate.R;
 
 
 public class SettingsActivity extends ActionBarActivity {
+
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +24,13 @@ public class SettingsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_settings);
+
+        prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        ToggleButton muteAllToggle = (ToggleButton) findViewById(R.id.buttonSettingsMuteAll);
+
+        if (!prefs.getString("muteAll", "false").equals("false")) {
+            muteAllToggle.setChecked(true);
+        }
     }
 
 
@@ -40,5 +54,16 @@ public class SettingsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void muteAllToggle(View view) {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (((ToggleButton)view).isChecked()) {
+            editor.putString("muteAll", "true");
+        } else {
+            editor.putString("muteAll", "false");
+        }
+        editor.apply();
     }
 }

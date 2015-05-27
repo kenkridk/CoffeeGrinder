@@ -6,8 +6,6 @@
     <string name="title_activity_view_subscriptions">View Subscriptions</string>
     <string name="buttonDelete">Delete</string>
     <string name="buttonMute">Mute</string>
-    <string name="textViewSettingsText">Settings</string>
-    <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_nfc">NFCActivity</string>
 
     <string name="time_up">Time Is Up\!</string>
@@ -18,4 +16,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_inquiry">New Notification</string>
     <string name="title_activity_show_map">Ready</string>
+
+    <!-- Settings activity -->
+    <string name="textViewSettingsText">Settings</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="settingsMuteAllButtonOnText">Unmute all</string>
+    <string name="settingsMuteAllButtonOffText">Mute all</string>
+    <string name="settingsSetRoutingServerButton">Set routing server IP</string>
 </resources>
