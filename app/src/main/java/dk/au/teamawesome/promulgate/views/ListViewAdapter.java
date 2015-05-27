@@ -3,6 +3,7 @@ package dk.au.teamawesome.promulgate.views;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,6 +140,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
         Set<String> machineIds = prefs.getStringSet("mutedMachines", new HashSet<String>());
         if (machineIds.contains(lvc.getMachineId())) {
             mute.setChecked(false);
+            leftContainer.setBackgroundColor(Color.LTGRAY);
         } else mute.setChecked(true);
 
         remove.setEnabled(false);
@@ -214,9 +216,11 @@ public class ListViewAdapter extends ArrayAdapter<ListViewClass>{
 
                 if (((ToggleButton) v).isChecked()) {
                     machineIds.remove(lvc.getMachineId());
+                    leftContainer.setBackgroundColor(Color.parseColor("#82bfb6"));
                 }
                 if (!((ToggleButton) v).isChecked()) {
                     machineIds.add(lvc.getMachineId());
+                    leftContainer.setBackgroundColor(Color.LTGRAY);
                 }
 
                 SharedPreferences.Editor editor = prefs.edit();
