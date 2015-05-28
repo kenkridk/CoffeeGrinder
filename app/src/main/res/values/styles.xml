@@ -5,4 +5,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="settingsEntryStyle">
+        <item name="android:layout_marginTop">12sp</item>
+        <item name="android:layout_marginBottom">12sp</item>
+    </style>
+
+    <style name="settingsHeadingStyle">
+        <item name="android:layout_marginBottom">12sp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

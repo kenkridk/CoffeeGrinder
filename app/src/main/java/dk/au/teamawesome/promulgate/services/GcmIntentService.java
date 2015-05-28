@@ -7,12 +7,14 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import dk.au.teamawesome.promulgate.R;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONException;
@@ -29,6 +31,7 @@ import dk.au.teamawesome.promulgate.activities.ShowMapActivity;
 import dk.au.teamawesome.promulgate.activities.MainActivity;
 
 public class GcmIntentService extends IntentService {
+
     private enum TypeOfMessage { FOOD, DRINK, MISC }
 
     public static final int NOTIFICATION_ID = 1;
@@ -74,6 +77,11 @@ public class GcmIntentService extends IntentService {
 
                         switch (message.getString("type")) {
                             case "request":
+                                //Ignore if outside ignore distance
+                                if (isOutsideIgnoreDistance(config.getString("lat"), config.getString("lon"))) {
+                                    GcmBroadcastReceiver.completeWakefulIntent(intent);
+                                    return;
+                                }
                                 //Request for whether the user wants coffee or not
                                 JSONObject requestDescription = message.getJSONObject("response");
                                 Log.i(TAG, "Received request GCM message");
@@ -87,6 +95,11 @@ public class GcmIntentService extends IntentService {
                                 startActivity(inquiryIntent);
                                 break;
                             case "notification":
+                                //Ignore if outside ignore distance
+                                if (isOutsideIgnoreDistance(config.getString("lat"), config.getString("lon"))) {
+                                    GcmBroadcastReceiver.completeWakefulIntent(intent);
+                                    return;
+                                }
                                 /**
                                  * -"Product" is on the way
                                  * -"Product" is ready
@@ -225,5 +238,25 @@ public class GcmIntentService extends IntentService {
                 .setContentText(msg)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
+    }
+
+    public boolean isOutsideIgnoreDistance(String lat, String lon) {
+        SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        String ignoreDistance = prefs.getString("ignoreDistance", "noIgnore");
+
+        if (ignoreDistance.equals("noIgnore")) return false;
+
+        Location destination = new Location("");
+        destination.setLatitude(Double.parseDouble(lat));
+        destination.setLongitude(Double.parseDouble(lon));
+
+        Set<String> tempSet = prefs.getStringSet("lastKnownLocation", new HashSet<String>());
+        String[] lastKnownLocation = tempSet.toArray(new String[tempSet.size()]);
+        Location origin = new Location("");
+        origin.setLatitude(Double.valueOf(lastKnownLocation[0]));
+        origin.setLongitude(Double.valueOf(lastKnownLocation[1]));
+
+        Log.i("Promulgate", "isOutSideIgnoreDistance: " + (origin.distanceTo(destination) > Double.parseDouble(ignoreDistance)));
+        return origin.distanceTo(destination) > Double.parseDouble(ignoreDistance);
     }
 }

@@ -20,7 +20,7 @@
     <!-- Settings activity -->
     <string name="textViewSettingsText">Settings</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="settingsMuteAllButtonOnText">Unmute all</string>
-    <string name="settingsMuteAllButtonOffText">Mute all</string>
+    <string name="mute_all_text">Mute all</string>
     <string name="settingsSetRoutingServerButton">Set routing server IP</string>
+    <string name="ignore_distance_text">Ignore machines with a distance over</string>
 </resources>

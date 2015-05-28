@@ -9,14 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import dk.au.teamawesome.promulgate.R;
 
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     SharedPreferences prefs;
+    TextView ignoreDistanceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +31,26 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
 
         prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
-        ToggleButton muteAllToggle = (ToggleButton) findViewById(R.id.buttonSettingsMuteAll);
 
+        Switch muteAllSwitch = (Switch) findViewById(R.id.settingsSwitchMuteAll);
         if (!prefs.getString("muteAll", "false").equals("false")) {
-            muteAllToggle.setChecked(true);
+            muteAllSwitch.setChecked(true);
         }
+        muteAllSwitch.setOnCheckedChangeListener(this);
+
+        SeekBar ignoreDistanceSeekbar = (SeekBar) findViewById(R.id.settingsSeekbarIgnoreDistance);
+
+        if (prefs.getString("ignoreDistance", "noIgnore").equals("noIgnore")) {
+            ignoreDistanceSeekbar.setProgress(ignoreDistanceSeekbar.getMax());
+        } else ignoreDistanceSeekbar.setProgress(Integer.parseInt(prefs.getString("ignoreDistance", "1000")));
+        ignoreDistanceSeekbar.setOnSeekBarChangeListener(this);
+
+        ignoreDistanceText = (TextView) findViewById(R.id.settingsIgnoreDistanceNumberText);
+
+        if (ignoreDistanceSeekbar.getProgress() == ignoreDistanceSeekbar.getMax()) {
+            ignoreDistanceText.setText("Don't ignore anything");
+        } else ignoreDistanceText.setText(ignoreDistanceSeekbar.getProgress() + " meters");
+
     }
 
 
@@ -56,14 +76,41 @@ public class SettingsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void muteAllToggle(View view) {
+    //OnCheckedChangedListener method
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         SharedPreferences.Editor editor = prefs.edit();
 
-        if (((ToggleButton)view).isChecked()) {
+        if (isChecked) {
             editor.putString("muteAll", "true");
         } else {
             editor.putString("muteAll", "false");
         }
+        editor.apply();
+    }
+
+    //OnSeekBarChangedListener methods
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (seekBar.getProgress() == seekBar.getMax()) {
+            ignoreDistanceText.setText("Don't ignore anything");
+        } else if (seekBar.getProgress() == 0) {
+            ignoreDistanceText.setText("50 meters");
+        } else ignoreDistanceText.setText(progress + " meters");
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        SharedPreferences.Editor editor = prefs.edit();
+        if (seekBar.getProgress() == seekBar.getMax()) {
+            editor.putString("ignoreDistance", "noIgnore");
+        } else editor.putString("ignoreDistance", String.valueOf(seekBar.getProgress() + 50));
         editor.apply();
     }
 }

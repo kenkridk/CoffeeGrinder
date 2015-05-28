@@ -13,27 +13,77 @@
         android:id="@+id/textViewSettingsTitle"
         android:text="@string/textViewSettingsText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ToggleButton
-        android:id="@+id/buttonSettingsMuteAll"
-        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:textOn="@string/settingsMuteAllButtonOnText"
-        android:textOff="@string/settingsMuteAllButtonOffText"
-        android:textColor="#ffffff"
-        android:background="#f22233"
-        android:onClick="muteAllToggle"
-        android:layout_below="@+id/textViewSettingsTitle"/>
+        style="@style/settingsHeadingStyle"/>
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:layout_width="100dp"
+    <View
+        android:id="@+id/settingsHorizontalLineOne"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#FF000000"
+        android:layout_below="@id/textViewSettingsTitle"/>
+
+    <RelativeLayout
+        android:id="@+id/settingsEntryOne"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settingsSetRoutingServerButton"
-        android:textColor="#ffffff"
-        android:background="#0000ff"
-        android:alpha="0.7"
-        android:layout_below="@+id/buttonSettingsMuteAll"/>
+        android:layout_below="@id/settingsHorizontalLineOne">
+
+        <TextView
+            android:id="@+id/settingsTextViewMuteAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mute_all_text"
+            style="@style/settingsEntryStyle"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:id="@+id/settingsSwitchMuteAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/settingsTextViewMuteAll"
+            android:layout_toEndOf="@id/settingsTextViewMuteAll"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@style/settingsEntryStyle"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settingsHorizontalLineTwo"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#FF000000"
+        android:layout_below="@id/settingsEntryOne"/>
+
+    <RelativeLayout
+        android:id="@+id/settingsEntryTwo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settingsHorizontalLineTwo">
+
+        <TextView
+            android:id="@+id/settingsIgnoreDistanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ignore_distance_text"
+            style="@style/settingsEntryStyle"/>
+
+        <SeekBar
+            android:id="@+id/settingsSeekbarIgnoreDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="3000"
+            android:layout_below="@id/settingsIgnoreDistanceTextView" />
+
+        <TextView
+            android:id="@+id/settingsIgnoreDistanceNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/settingsSeekbarIgnoreDistance"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
