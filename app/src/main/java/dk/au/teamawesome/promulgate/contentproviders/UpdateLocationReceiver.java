@@ -36,7 +36,6 @@ public class UpdateLocationReceiver extends BroadcastReceiver implements GoogleA
                 .addApi(LocationServices.API)
                 .build();
         googleApiClient.connect();
-        Log.i("UpdateLocationReceiver", "Received broadcast");
     }
 
     @Override

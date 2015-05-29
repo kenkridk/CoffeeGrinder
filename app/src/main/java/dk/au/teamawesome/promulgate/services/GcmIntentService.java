@@ -95,11 +95,6 @@ public class GcmIntentService extends IntentService {
                                 startActivity(inquiryIntent);
                                 break;
                             case "notification":
-                                //Ignore if outside ignore distance
-                                if (isOutsideIgnoreDistance(config.getString("lat"), config.getString("lon"))) {
-                                    GcmBroadcastReceiver.completeWakefulIntent(intent);
-                                    return;
-                                }
                                 /**
                                  * -"Product" is on the way
                                  * -"Product" is ready

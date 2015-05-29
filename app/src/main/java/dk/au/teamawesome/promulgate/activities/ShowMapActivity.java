@@ -1,5 +1,7 @@
 package dk.au.teamawesome.promulgate.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,13 +17,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import dk.au.teamawesome.promulgate.R;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,15 +32,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import dk.au.teamawesome.promulgate.fragments.ShowMapTextFragment;
 
 
-public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCallback {
 
-    GoogleApiClient googleApiClient;
     float lat = 0.0f, lon = 0.0f;
     MapFragment mapFragment;
+    GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,6 @@ public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCall
         getSupportActionBar().hide();
         setContentView(R.layout.activity_show_map);
 
-        buildGoogleApiClient();
-        googleApiClient.connect();
-
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.showMapFragment);
         mapFragment.getMapAsync(this);
     }
@@ -59,22 +58,25 @@ public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCall
     //OnMapReadyCallback method
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMyLocationEnabled(true);
-
+//        googleMap.setMyLocationEnabled(true);
+        this.googleMap = googleMap;
         lat = Float.parseFloat(getIntent().getStringExtra("latitude"));
         lon = Float.parseFloat(getIntent().getStringExtra("longitude"));
         LatLng pos = new LatLng(lat, lon);
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 19));
         googleMap.addMarker(new MarkerOptions().position(pos));
 
-    }
-
-    private void buildGoogleApiClient() {
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        Set<String> tempSet = prefs.getStringSet("lastKnownLocation", new HashSet<String>());
+        String[] lastKnownLocation = tempSet.toArray(new String[tempSet.size()]);
+        Location origin = new Location("");
+        origin.setLatitude(Double.valueOf(lastKnownLocation[0]));
+        origin.setLongitude(Double.valueOf(lastKnownLocation[1]));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(origin.getLatitude(), origin.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        ShowMapTextFragment fragment = (ShowMapTextFragment) getSupportFragmentManager().findFragmentById(R.id.showMapTextFragment);
+        fragment.setText(getIntent().getStringExtra("flavorText"));
+        request(Double.toString(origin.getLatitude()), Double.toString(origin.getLongitude()), Float.toString(lat), Float.toString(lon));
     }
 
     @Override
@@ -97,26 +99,6 @@ public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCall
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    //ConnectionCallbacks methods
-    @Override
-    public void onConnected(Bundle bundle) {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        ShowMapTextFragment fragment = (ShowMapTextFragment) getSupportFragmentManager().findFragmentById(R.id.showMapTextFragment);
-        fragment.setText(getIntent().getStringExtra("flavorText"));
-        request(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()), Float.toString(lat), Float.toString(lon));
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    //OnConnectionFailedListener method
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     private void request(String originLat, String originLon, String destLat, String destLon) {
