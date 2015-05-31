@@ -25,7 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import dk.au.teamawesome.promulgate.contentproviders.UpdateLocationReceiver;
 import dk.au.teamawesome.promulgate.services.GCMService;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final boolean DEBUG = true;
 
@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        startGPSAlarm();
+        startUpdateLocationAlarm();
         initializeButtons();
         initializeListeners();
 
@@ -159,12 +159,32 @@ public class MainActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    private void startGPSAlarm() {
+    private void startUpdateLocationAlarm() {
+        SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+
         Intent intent = new Intent(this, UpdateLocationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 5*1000, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), prefs.getInt("updateLocationInterval", 5000), pendingIntent);
+
+        getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    //OnSharedPrefenceChangedListener
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("updateLocationInterval")) {
+            Intent intent = new Intent(this, UpdateLocationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+//            pendingIntent.cancel();
+
+            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), sharedPreferences.getInt(key, 1), pendingIntent);
+            Log.i("UpdateLocationInterval", "Shared preference changed to " + sharedPreferences.getInt(key, 1));
+        }
     }
 
     /**
@@ -186,4 +206,5 @@ public class MainActivity extends ActionBarActivity {
     public void reRegister(View view) {
         startGCMService(GCMService.REREGISTER);
     }
+
 }

@@ -31,8 +31,9 @@ public class SettingsActivity extends ActionBarActivity implements CompoundButto
         setContentView(R.layout.activity_settings);
 
         prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
 
-        Switch muteAllSwitch = (Switch) findViewById(R.id.settingsSwitchMuteAll);
+        final Switch muteAllSwitch = (Switch) findViewById(R.id.settingsSwitchMuteAll);
         if (!prefs.getString("muteAll", "false").equals("false")) {
             muteAllSwitch.setChecked(true);
         }
@@ -51,6 +52,33 @@ public class SettingsActivity extends ActionBarActivity implements CompoundButto
             ignoreDistanceText.setText("Don't ignore anything");
         } else ignoreDistanceText.setText(ignoreDistanceSeekbar.getProgress() + " meters");
 
+        final TextView updateLocationIntervalTextView = (TextView) findViewById(R.id.settingsTextViewUpdateLocationInterval);
+        SeekBar updateLocationIntervalSeekbar = (SeekBar) findViewById(R.id.settingsSeekbarUpdateLocationInterval);
+
+        updateLocationIntervalSeekbar.setProgress(prefs.getInt("updateLocationInterval", 5000)/1000);
+        updateLocationIntervalTextView.setText(prefs.getInt("updateLocationInterval", 5000)/1000 + " minutes");
+
+        updateLocationIntervalSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (seekBar.getProgress() == 0) {
+                    updateLocationIntervalTextView.setText("1 minute");
+                } else updateLocationIntervalTextView.setText(seekBar.getProgress() + " minutes");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (seekBar.getProgress() == 0) {
+                    editor.putInt("updateLocationInterval", 1000);
+                } else editor.putInt("updateLocationInterval", seekBar.getProgress()*1000);
+                editor.apply();
+            }
+        });
     }
 
 

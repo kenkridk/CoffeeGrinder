@@ -82,7 +82,44 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_below="@id/settingsSeekbarIgnoreDistance"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settingsHorizontalLineThree"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#FF000000"
+        android:layout_below="@id/settingsEntryTwo"/>
+
+    <RelativeLayout
+        android:id="@+id/settingsEntryThree"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settingsHorizontalLineThree">
+
+        <TextView
+            android:id="@+id/settingsTextViewUpdateLocationIntervalInfo"
+            android:text="@string/update_location_interval_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/settingsEntryStyle"/>
+
+        <SeekBar
+            android:id="@+id/settingsSeekbarUpdateLocationInterval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="60"
+            android:layout_below="@id/settingsTextViewUpdateLocationIntervalInfo"/>
+
+        <TextView
+            android:id="@+id/settingsTextViewUpdateLocationInterval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/settingsSeekbarUpdateLocationInterval" />
 
     </RelativeLayout>
 

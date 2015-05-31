@@ -36,6 +36,7 @@ public class UpdateLocationReceiver extends BroadcastReceiver implements GoogleA
                 .addApi(LocationServices.API)
                 .build();
         googleApiClient.connect();
+        Log.i("Promulgate", "Updating location...");
     }
 
     @Override
@@ -55,12 +56,21 @@ public class UpdateLocationReceiver extends BroadcastReceiver implements GoogleA
 
         SharedPreferences prefs = ctx.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        Set<String> latLon = new HashSet<>();
+        /*Set<String> latLon = new HashSet<>();
         latLon.add(Double.toString(location.getLatitude()));
         latLon.add(Double.toString(location.getLongitude()));
 
-        editor.putStringSet("lastKnownLocation", latLon);
+        editor.putStringSet("lastKnownLocation", latLon);*/
+
+        String lastKnownLocationLat = Double.toString(location.getLatitude());
+        String lastKnownLocationLng = Double.toString(location.getLongitude());
+
+        editor.putString("lastKnownLocationLat", lastKnownLocationLat);
+        editor.putString("lastKnownLocationLng", lastKnownLocationLng);
+
         editor.apply();
+
+        Log.i("Promulgate", "Got location " + location.getLatitude() + "," + location.getLongitude());
 
 //        Toast.makeText(ctx, "Current location: \n" + prefs.getStringSet("lastKnownLocation", new HashSet<String>()).toString(), Toast.LENGTH_SHORT).show();
 

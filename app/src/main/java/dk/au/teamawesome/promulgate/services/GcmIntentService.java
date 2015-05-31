@@ -245,11 +245,13 @@ public class GcmIntentService extends IntentService {
         destination.setLatitude(Double.parseDouble(lat));
         destination.setLongitude(Double.parseDouble(lon));
 
-        Set<String> tempSet = prefs.getStringSet("lastKnownLocation", new HashSet<String>());
-        String[] lastKnownLocation = tempSet.toArray(new String[tempSet.size()]);
+        /*Set<String> tempSet = prefs.getStringSet("lastKnownLocation", new HashSet<String>());
+        String[] lastKnownLocation = tempSet.toArray(new String[tempSet.size()]);*/
         Location origin = new Location("");
-        origin.setLatitude(Double.valueOf(lastKnownLocation[0]));
-        origin.setLongitude(Double.valueOf(lastKnownLocation[1]));
+        /*origin.setLatitude(Double.valueOf(lastKnownLocation[0]));
+        origin.setLongitude(Double.valueOf(lastKnownLocation[1]));*/
+        origin.setLatitude(Double.parseDouble(prefs.getString("lastKnownLocationLat", "")));
+        origin.setLongitude(Double.parseDouble(prefs.getString("lastKnownLocationLng", "")));
 
         Log.i("Promulgate", "isOutSideIgnoreDistance: " + (origin.distanceTo(destination) > Double.parseDouble(ignoreDistance)));
         return origin.distanceTo(destination) > Double.parseDouble(ignoreDistance);
