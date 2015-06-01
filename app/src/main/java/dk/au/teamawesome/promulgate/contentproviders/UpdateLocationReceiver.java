@@ -7,15 +7,11 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import dk.au.teamawesome.promulgate.activities.MainActivity;
 
@@ -56,11 +52,6 @@ public class UpdateLocationReceiver extends BroadcastReceiver implements GoogleA
 
         SharedPreferences prefs = ctx.getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        /*Set<String> latLon = new HashSet<>();
-        latLon.add(Double.toString(location.getLatitude()));
-        latLon.add(Double.toString(location.getLongitude()));
-
-        editor.putStringSet("lastKnownLocation", latLon);*/
 
         String lastKnownLocationLat = Double.toString(location.getLatitude());
         String lastKnownLocationLng = Double.toString(location.getLongitude());
@@ -71,8 +62,6 @@ public class UpdateLocationReceiver extends BroadcastReceiver implements GoogleA
         editor.apply();
 
         Log.i("Promulgate", "Got location " + location.getLatitude() + "," + location.getLongitude());
-
-//        Toast.makeText(ctx, "Current location: \n" + prefs.getStringSet("lastKnownLocation", new HashSet<String>()).toString(), Toast.LENGTH_SHORT).show();
 
         LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
     }

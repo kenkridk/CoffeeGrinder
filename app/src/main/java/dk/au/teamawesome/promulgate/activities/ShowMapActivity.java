@@ -32,8 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import dk.au.teamawesome.promulgate.fragments.ShowMapTextFragment;
 
@@ -67,11 +65,7 @@ public class ShowMapActivity extends ActionBarActivity implements OnMapReadyCall
         googleMap.addMarker(new MarkerOptions().position(pos));
 
         SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
-        /*Set<String> tempSet = prefs.getStringSet("lastKnownLocation", new HashSet<String>());
-        String[] lastKnownLocation = tempSet.toArray(new String[tempSet.size()]);*/
         Location origin = new Location("");
-        /*origin.setLatitude(Double.valueOf(lastKnownLocation[0]));
-        origin.setLongitude(Double.valueOf(lastKnownLocation[1]));*/
         origin.setLatitude(Double.parseDouble(prefs.getString("lastKnownLocationLat","")));
         origin.setLongitude(Double.parseDouble(prefs.getString("lastKnownLocationLng","")));
         Log.i("Promulgate", "origin: " + origin.toString());

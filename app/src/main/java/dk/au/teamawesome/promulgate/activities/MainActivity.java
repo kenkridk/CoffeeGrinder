@@ -41,18 +41,15 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
 
-        //should hide the actionbar
-
+        //hide the actionbar
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
 
-
         startUpdateLocationAlarm();
+
         initializeButtons();
         initializeListeners();
-
-        //start service that notifies about new subscribers
 
         if (DEBUG) Log.i(GCM_TAG, "OnCreate");
 
@@ -106,9 +103,6 @@ public class MainActivity extends ActionBarActivity implements SharedPreferences
             public void onClick(View v) {
                 //start new activity showing settings
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                /*Intent i = new Intent(MainActivity.this, ShowMapActivity.class);
-                i.putExtra("latitude", "56.153498");
-                i.putExtra("longitude", "10.208037");*/
                 startActivity(i);
             }
         });
