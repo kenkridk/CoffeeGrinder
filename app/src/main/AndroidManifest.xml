@@ -103,17 +103,14 @@
 
         <activity
             android:name=".activities.InquiryActivity"
-            android:label="@string/title_activity_inquiry" >
+            android:label="@string/title_activity_inquiry"
+            android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".activities.ShowMapActivity"
             android:label="@string/title_activity_show_map" >
         </activity>
-
-        <service
-            android:name=".services.UpdateLocationService"
-            android:exported="false" >
-        </service>
 
         <receiver
             android:name=".contentproviders.UpdateLocationReceiver"
