@@ -56,14 +56,14 @@ public class SettingsActivity extends ActionBarActivity implements CompoundButto
         SeekBar updateLocationIntervalSeekbar = (SeekBar) findViewById(R.id.settingsSeekbarUpdateLocationInterval);
 
         updateLocationIntervalSeekbar.setProgress(prefs.getInt("updateLocationInterval", 5000)/1000);
-        updateLocationIntervalTextView.setText(prefs.getInt("updateLocationInterval", 5000)/1000 + " minutes");
+        updateLocationIntervalTextView.setText(prefs.getInt("updateLocationInterval", 5000)/1000 + " seconds");
 
         updateLocationIntervalSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (seekBar.getProgress() == 0) {
-                    updateLocationIntervalTextView.setText("1 minute");
-                } else updateLocationIntervalTextView.setText(seekBar.getProgress() + " minutes");
+                    updateLocationIntervalTextView.setText("1 second");
+                } else updateLocationIntervalTextView.setText(seekBar.getProgress() + " seconds");
             }
 
             @Override
